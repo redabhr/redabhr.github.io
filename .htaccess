@@ -1,15 +1,5 @@
 AddDefaultCharset UTF-8
 
-RewriteEngine On
-
-#RewriteCond %{HTTPS} !=on
-
-#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-RewriteEngine On
-RewriteCond %{SERVER_PORT} 443
-RewriteRule (.*) http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-
 ## EXPIRES CACHING ##
 
 <IfModule mod_expires.c>
