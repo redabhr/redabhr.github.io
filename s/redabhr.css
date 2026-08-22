@@ -124,3 +124,111 @@ div#contact {
     letter-spacing: 10px;
     padding-left: 6px
 }
+
+:root {
+    --text-primary: #e5e1de;
+    --text-secondary: #969398;
+    --accent: #aa8355;
+    --accent-hover: #e5e1de;
+}
+
+div#global {
+    box-sizing: border-box;
+    padding-left: 46px;
+}
+
+.reda-bouhaddar {
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.profil {
+    color: var(--text-secondary);
+    font-size: 36px;
+    margin-bottom: 28px;
+}
+
+.accent-line {
+    width: 26px;
+    height: 2px;
+    margin-bottom: 28px;
+    background: var(--accent);
+}
+
+.statement {
+    max-width: 520px;
+    margin-bottom: 44px;
+    font-family: 'RB', Sans-Serif;
+    font-size: 17px;
+    line-height: 1.45;
+    color: var(--text-secondary);
+}
+
+div#contact {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    padding-left: 0;
+    letter-spacing: 0;
+}
+
+#contact a:link,
+#contact a:visited {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    transition: color 160ms ease;
+}
+
+#contact a:hover,
+#contact a:active {
+    color: var(--accent-hover);
+}
+
+@media (max-width: 720px) {
+    #page-table {
+        width: 100%;
+    }
+
+    div#global {
+        box-sizing: border-box;
+        width: 100%;
+        margin: 20px 0;
+        padding: 10px 28px;
+    }
+
+    .reda-bouhaddar {
+        font-size: 38px;
+    }
+
+    .profil {
+        font-size: 29px;
+        margin-bottom: 26px;
+    }
+
+    .statement {
+        max-width: 340px;
+        margin-bottom: 40px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 360px) {
+    div#global {
+        padding-right: 24px;
+        padding-left: 24px;
+    }
+
+    .reda-bouhaddar {
+        font-size: 34px;
+    }
+
+    .profil {
+        font-size: 25px;
+    }
+
+    div#contact {
+        gap: 22px;
+    }
+}
