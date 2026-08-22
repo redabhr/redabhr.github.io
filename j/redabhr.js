@@ -1,7 +1,7 @@
 !function (a, b) {
     var c = {
         ratio: 16 / 9,
-        videoId: "tNvSGaVf5zg",
+        videoId: "hXOOhN-wAxw",
         mute: !0,
         repeat: !0,
         width: a(b).width(),
@@ -38,8 +38,9 @@
             })
         }, b.onPlayerReady = function (a) {
             h(), e.mute && a.target.mute(), a.target.seekTo(e.start), a.target.playVideo()
-        }, b.onPlayerStateChange = function (a) {
-            0 === a.data && e.repeat && player.seekTo(e.start)
+        }, b.onPlayerStateChange = function (c) {
+            1 === c.data && a("#redabhrBgVideo-container").addClass("is-ready"),
+            0 === c.data && e.repeat && player.seekTo(e.start)
         };
         var h = function () {
             var d, g, c = a(b).width(), f = a(b).height(), h = a("#redabhrBgVideo-player");
