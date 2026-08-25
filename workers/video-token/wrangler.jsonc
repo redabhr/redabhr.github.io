@@ -5,9 +5,9 @@
   "compatibility_date": "2026-08-23",
   "vars": {
     "ALLOWED_ORIGINS": "https://reda.bouhaddar.com",
-    "MUX_PLAYBACK_ID_LANDSCAPE": "replace-with-production-signed-playback-id",
+    "MUX_PLAYBACK_ID_LANDSCAPE": "vv02Pg01GrrucgresYJHeWkaAALyN2H02yYS6fo019FaT8I",
     "MUX_PLAYBACK_ID_PORTRAIT": "",
-    "MUX_PLAYBACK_RESTRICTION_ID": "replace-with-playback-restriction-id",
+    "MUX_PLAYBACK_RESTRICTION_ID": "024TsaqNaYo2ffgc15YFxy7d6K01i5Cr9qbOtJrCeAGTA",
     "MAX_LANDSCAPE_RESOLUTION": "2160p",
     "MAX_PORTRAIT_RESOLUTION": "720p",
     "TOKEN_TTL_SECONDS": "60"

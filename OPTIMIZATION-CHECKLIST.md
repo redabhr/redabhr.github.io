@@ -34,7 +34,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Ne configurer aucun nouvel outil de mesure sans besoin explicite et strategie de consentement.
 - [x] Decision : ne pas integrer Mux Data SDK a ce stade ; il mesure la qualite de lecture mais n'ameliore ni la diffusion, ni la boucle, ni la protection.
 - [x] Conserver Mux Data comme outil de diagnostic QoE optionnel si des erreurs, lenteurs de demarrage ou rebufferings apparaissent en production.
-- [ ] Eviter le chargement de services tiers avant consentement lorsqu'ils utilisent des traceurs. Reste lie au remplacement de YouTube en P1.
+- [x] Eviter le chargement de services tiers de tracking avant consentement : YouTube et les outils de mesure sont absents ; Mux est limite a la diffusion video necessaire.
 
 ### Accessibilite de la video
 
@@ -111,12 +111,12 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Refuser les requetes sans referrer et les user-agents consideres a risque lorsque la compatibilite le permet.
 - [x] Garder la cle privee Mux uniquement dans les secrets du Worker.
 - [x] Ne jamais placer un secret, une cle de signature ou un token longue duree dans le depot ou le JavaScript public.
-- [ ] Ajouter une politique CSP limitee aux domaines Mux et au Worker retenu.
+- [x] Ajouter une politique CSP limitee au Worker Production exact, a `*.mux.com` et aux ressources locales ; proteger le JSON-LD inline par hash SHA-256.
 - [x] Definir le comportement volontaire en cas de referrer supprime par un navigateur de confidentialite : conserver le poster sans degrader la page.
 - [x] Ajouter une limite de debit Cloudflare de 12 requetes par minute et une validation stricte de `Origin`, `Referer` et `User-Agent` sur l'endpoint de jeton.
 - [x] Encoder `max_resolution` dans le JWT : 720p en portrait et 2160p en paysage, puis plafonner le lecteur a 1080p, 1440p ou 2160p selon le rendu et le reseau.
-- [ ] Verifier qu'un lien copie expire et qu'une lecture depuis un domaine non autorise echoue.
-- [ ] Verifier qu'aucun original ou rendu MP4 direct n'est expose par la configuration Mux.
+- [x] Verifier qu'un lien copie expire et qu'une lecture depuis un domaine non autorise echoue : HTTP 403 confirme apres 63 s, depuis un tiers et sans provenance.
+- [x] Verifier qu'aucun original ou rendu MP4 direct n'est expose par la configuration Mux Production : `master_access` a `none` et `static_renditions` absent.
 
 ### Compatibilite cible
 
@@ -162,8 +162,10 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Confirmer l'absence de piste audio dans le master : aucun handler MP4 `soun`, uniquement le handler video `vide`.
 - [x] Faire correspondre la premiere frame avec l'image poster et ses variantes paysage/portrait.
 - [x] Verifier l'Asset Mux reel : qualite Plus, tier 2160p, source stockee 3840 x 2160, policy signed, sans master ni rendition MP4 statique.
+- [x] Verifier l'Asset Mux Production initial : qualite Basic, tier 2160p, source 3840 x 2160 a 24 fps, policy signed uniquement, sans master ni rendition MP4 statique.
+- [ ] Comparer visuellement l'asset Production Basic avec l'asset Development Plus avant de decider d'un reencodage Production Plus.
 - [ ] Produire et verifier le crop portrait 3:4 avant son upload comme second asset Mux.
-- [ ] Envoyer les masters directement a Mux sans passer par le depot Git.
+- [x] Envoyer le master directement aux environnements Mux Development et Production sans passer par le depot Git.
 - [x] Verifier les renditions adaptatives 270p, 480p, 720p, 1080p, 1440p et 2160p exposees par le manifeste Mux signe.
 - [ ] Conserver l'encodage WebM/MP4 local uniquement comme plan de sortie documente.
 
@@ -197,14 +199,14 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Ecarter GitHub Pages pour la diffusion du master et du flux video cible.
 - [x] Retenir Mux Free pour l'ingestion, le transcodage, les manifests HLS, les renditions et la diffusion CDN.
 - [x] Retenir Cloudflare Workers Free uniquement pour signer les jetons courts.
-- [ ] Creer et securiser les comptes Mux et Cloudflare necessaires.
+- [x] Creer les comptes Mux et Cloudflare necessaires et isoler les credentials Production hors Git.
 - [ ] Revoquer et remplacer les identifiants Mux Development exposes avant toute mise en production.
 - [x] Creer l'asset Mux avec une politique `signed` uniquement ; acces sans JWT confirme refuse en HTTP 403.
-- [ ] Configurer la restriction de playback Production uniquement pour `reda.bouhaddar.com`.
+- [x] Configurer la restriction de playback Production uniquement pour `reda.bouhaddar.com`, sans referrer absent ni user-agent a risque.
 - [x] Creer et activer une Playback Restriction Development limitee a `localhost` et `reda.bouhaddar.com`.
 - [x] Rendre la restriction Mux obligatoire dans tous les environnements, y compris localhost.
 - [x] Verifier deux boucles completes sans retour au poster : aucune frame echantillonnee avec la couche video masquee.
-- [ ] Verifier en detail les en-tetes de cache des segments Mux.
+- [x] Verifier les en-tetes de cache Mux : manifests signes non stockes et segments revalidables avec `max-age=604800`.
 - [ ] Evaluer le trafic reel et le nombre de minutes delivrees apres deploiement.
 
 ## P1 - Dependances et JavaScript
@@ -307,6 +309,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-25 | P1 Video signee - environnement local | Secrets Mux Development isoles dans `.dev.vars`, endpoint Worker local auto-detecte et Playback Restriction active pour localhost | 6 tests Worker reussis ; manifeste HLS restreint HTTP 200 depuis localhost ; sans referrer ou depuis un domaine tiers refuse en HTTP 403 | Partiel : restriction et deploiement Production en attente |
 | 2026-08-25 | P1 Video signee - qualite et boucle | Suppression du test de debit en rendition minimale, estimation ABR adaptee au viewport, manifeste paysage jusqu'a 2160p, `hls.js` prioritaire, derniere frame conservee pendant un stall et reprise explicite a la fin | Chrome : 720p a 569 px, 1080p a 1440 px, 1440p a 2560 px, 2160p a 3840 px ; deux boucles sans retour au poster ; source premiere/derniere frame coherente | Termine en Development ; validation multi-navigateurs restante |
 | 2026-08-25 | Observabilite video | Decision de reporter Mux Data SDK : la consommation Mux et les logs Worker suffisent au lancement ; instrumentation QoE reservee au diagnostic d'incidents reels | Revue de l'integration `hls.js`, de sa valeur pour une video decorative et de son impact sur la confidentialite | Termine |
+| 2026-08-25 | P1 Video signee - Production | Asset Basic 2160p signe, restriction Mux stricte, nouvelle cle de signature, secrets Cloudflare chiffres, Worker deploye et endpoint/CSP configures | 6 tests Worker ; bundle 12,21 Kio ; HLS HTTP 200 avec 6 renditions ; tiers et absence de provenance HTTP 403 ; expiration a 63 s HTTP 403 ; cache segment 7 jours ; controle CSP reproductible | Partiel : deploiement GitHub Pages, validation navigateur et comparaison Basic/Plus restants |
 
 ## References pour la decision video
 

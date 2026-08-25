@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build:images": "node scripts/build-images.mjs",
-    "build:video-player": "node scripts/build-video-player.mjs"
+    "build:video-player": "node scripts/build-video-player.mjs",
+    "check:csp": "node scripts/check-csp.mjs"
   },
   "devDependencies": {
     "hls.js": "1.7.0",

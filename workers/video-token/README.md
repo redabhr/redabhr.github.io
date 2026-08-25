@@ -9,9 +9,9 @@ not upload media and it never exposes the Mux signing private key.
    workstation to Mux. Do not copy the master into a public Git repository.
 2. Create only a `signed` playback ID. Do not create a `public` playback ID or
    enable static MP4 renditions.
-3. The current Development asset uses Mux Plus quality and the 2160p resolution
-   tier. Leave `master_access` set to `none` and do not configure
-   `static_renditions`.
+3. The Development asset uses Mux Plus quality. The initial Production asset
+   uses Basic quality pending a visual comparison. Both use the 2160p
+   resolution tier, `master_access` set to `none`, and no `static_renditions`.
 4. Keep 2160p available in the signed landscape manifest. The player caps the
    initial rendition to 1080p, 1440p, or 2160p according to rendered display
    width and known connection constraints.
@@ -35,8 +35,9 @@ not upload media and it never exposes the Mux signing private key.
 
 ## Worker setup
 
-Replace the placeholder IDs in `wrangler.jsonc`, then install dependencies and
-store both signing values as encrypted Worker secrets:
+`wrangler.jsonc` contains the non-secret Production playback and restriction
+IDs. Install dependencies and store both signing values as encrypted Worker
+secrets:
 
 ```powershell
 npm install
@@ -55,10 +56,12 @@ signed JWT. Development currently uses 720p for portrait and 2160p for
 landscape so the player can select 1080p, 1440p, or 2160p without another
 token request.
 
-After deployment, set `data-video-token-endpoint` on the portfolio script to the
-Worker's HTTPS `/token` URL. The endpoint intentionally rejects missing
-`Origin`, `Referer`, or `User-Agent` headers; affected privacy browsers keep the
-local poster instead of receiving a weaker token.
+The portfolio script's `data-video-token-endpoint` contains the deployed
+Worker's HTTPS `/token` URL. Update it if the Worker hostname changes, then run
+`npm run check:csp` from the repository root so the CSP keeps allowing the exact
+endpoint and the current JSON-LD hash. The endpoint intentionally rejects
+missing `Origin`, `Referer`, or `User-Agent` headers; affected privacy browsers
+keep the local poster instead of receiving a weaker token.
 
 ## Local test
 
