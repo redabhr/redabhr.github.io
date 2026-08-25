@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "reda-background-video-token",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-23",
+  "vars": {
+    "ALLOWED_ORIGINS": "https://reda.bouhaddar.com",
+    "MUX_PLAYBACK_ID_LANDSCAPE": "replace-with-production-signed-playback-id",
+    "MUX_PLAYBACK_ID_PORTRAIT": "",
+    "MUX_PLAYBACK_RESTRICTION_ID": "replace-with-playback-restriction-id",
+    "MAX_LANDSCAPE_RESOLUTION": "2160p",
+    "MAX_PORTRAIT_RESOLUTION": "720p",
+    "TOKEN_TTL_SECONDS": "60"
+  },
+  "ratelimits": [
+    {
+      "name": "VIDEO_TOKEN_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 12,
+        "period": 60
+      }
+    }
+  ]
+}

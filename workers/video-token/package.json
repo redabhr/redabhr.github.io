@@ -1,0 +1,16 @@
+{
+  "name": "reda-background-video-token",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "test": "node test/index.test.js"
+  },
+  "devDependencies": {
+    "wrangler": "4.125.0"
+  }
+}
