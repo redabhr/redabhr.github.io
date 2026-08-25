@@ -5,16 +5,20 @@ not upload media and it never exposes the Mux signing private key.
 
 ## Mux setup
 
-1. Upload `media/enterprise_architect_background_loop.mp4` directly from the
-   workstation to Mux. Do not copy the master into a public Git repository.
+1. Upload the landscape and portrait masters from `media/` directly from the
+   workstation to Mux. Do not copy either master into a public Git repository.
 2. Create only a `signed` playback ID. Do not create a `public` playback ID or
    enable static MP4 renditions.
-3. The Development asset uses Mux Plus quality. The initial Production asset
-   uses Basic quality pending a visual comparison. Both use the 2160p
-   resolution tier, `master_access` set to `none`, and no `static_renditions`.
+3. Keep Production on Mux Basic quality. A frame-for-frame comparison with the
+   Development Plus asset found no meaningful visual gain under the page scrim,
+   while Plus used roughly 20-30% more bitrate at the common renditions. The
+   Production landscape asset uses the 2160p tier and the portrait asset uses
+   the 1080p tier. Both set `master_access` to `none` and have no
+   `static_renditions`.
 4. Keep 2160p available in the signed landscape manifest. The player caps the
    initial rendition to 1080p, 1440p, or 2160p according to rendered display
-   width and known connection constraints.
+   width and known connection constraints. Portrait playback is capped at 720p
+   and exposes 270x360, 480x640, and 720x960 HLS renditions.
 5. Create a playback restriction with this configuration:
 
 ```json
@@ -32,6 +36,22 @@ not upload media and it never exposes the Mux signing private key.
 
 6. Create a Mux signing key and retain its key ID and base64-encoded private key.
    Mux returns the private key only once.
+
+## Portrait source
+
+Install the root dependencies and generate the centered 3:4 upload master from
+the ignored 4K landscape source:
+
+```powershell
+npm install
+npm run build:video-portrait
+```
+
+The script uses locally pinned FFmpeg and FFprobe binaries. It crops the source
+to 1728x2304, scales it to 1080x1440 with Lanczos, encodes H.264 CRF 16 with no
+audio, and validates the dimensions, duration, frame rate, pixel format, and
+stream count before replacing the output. Both source MP4 files are ignored by
+Git and must be uploaded directly to Mux.
 
 ## Worker setup
 
@@ -52,9 +72,8 @@ PKCS#1/PKCS#8 PEM representation. Never put either value in `wrangler.jsonc`, a
 `.dev.vars` file committed to Git, the page HTML, or browser JavaScript.
 
 `MAX_PORTRAIT_RESOLUTION` and `MAX_LANDSCAPE_RESOLUTION` are encoded into each
-signed JWT. Development currently uses 720p for portrait and 2160p for
-landscape so the player can select 1080p, 1440p, or 2160p without another
-token request.
+signed JWT. Production uses 720p for portrait and 2160p for landscape so the
+player can select 1080p, 1440p, or 2160p without another token request.
 
 The portfolio script's `data-video-token-endpoint` contains the deployed
 Worker's HTTPS `/token` URL. Update it if the Worker hostname changes, then run
@@ -66,8 +85,8 @@ keep the local poster instead of receiving a weaker token.
 ## Local test
 
 The unit tests generate an ephemeral RSA key and verify the RS256 signature,
-claims, origin/referrer checks, portrait fallback, and rate-limit response. They
-do not require real Mux credentials.
+claims, origin/referrer checks, portrait selection and fallback, and rate-limit
+response. They do not require real Mux credentials.
 
 For a real local playback test, create an ignored `.dev.vars` file in this
 directory with the Development environment's signed playback ID and signing

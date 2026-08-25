@@ -90,6 +90,22 @@ describe('video token endpoint', () => {
         assert.match(body.url, new RegExp(`/${playbackId}\\.m3u8\\?token=`));
     });
 
+    it('returns the dedicated portrait asset when it is configured', async () => {
+        const portraitPlaybackId = 'portraitPlayback123';
+        const response = await worker.fetch(createRequest('?variant=portrait'), createEnvironment({
+            MUX_PLAYBACK_ID_PORTRAIT: portraitPlaybackId
+        }));
+        const body = await response.json();
+        const claims = decodeJwtClaims(new URL(body.url).searchParams.get('token'));
+
+        assert.equal(response.status, 200);
+        assert.equal(body.variant, 'portrait');
+        assert.equal(body.maxResolution, '720p');
+        assert.match(body.url, new RegExp(`/${portraitPlaybackId}\\.m3u8\\?token=`));
+        assert.equal(claims.sub, portraitPlaybackId);
+        assert.equal(claims.max_resolution, '720p');
+    });
+
     it('issues a restricted token for a configured localhost origin', async () => {
         const localOrigin = 'http://localhost:8000';
         const response = await worker.fetch(createRequest('', localOrigin), createEnvironment({

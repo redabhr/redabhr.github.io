@@ -101,7 +101,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Exclure le DRM Mux de la premiere implementation en raison de son cout fixe actuel de 100 USD par mois, hors licences.
 - [x] Ne pas servir le master 4K depuis GitHub Pages.
 - [x] Ne pas creer de playback ID public ni de rendu MP4 statique chez Mux.
-- [x] Prevoir deux assets si le gain est confirme : paysage 16:9 et portrait centre 3:4, afin de ne pas transmettre les zones laterales ensuite coupees sur mobile.
+- [x] Utiliser deux assets : paysage 16:9 et portrait centre 3:4, afin de ne pas transmettre les zones laterales ensuite coupees sur mobile.
 - [x] Cibler 480p ou 720p sur mobile, 720p ou 1080p sur tablette et desktop, et ne laisser la 4K que pour un tres grand affichage avec une excellente connexion.
 
 ### Perimetre de protection retenu
@@ -163,8 +163,9 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Faire correspondre la premiere frame avec l'image poster et ses variantes paysage/portrait.
 - [x] Verifier l'Asset Mux reel : qualite Plus, tier 2160p, source stockee 3840 x 2160, policy signed, sans master ni rendition MP4 statique.
 - [x] Verifier l'Asset Mux Production initial : qualite Basic, tier 2160p, source 3840 x 2160 a 24 fps, policy signed uniquement, sans master ni rendition MP4 statique.
-- [ ] Comparer visuellement l'asset Production Basic avec l'asset Development Plus avant de decider d'un reencodage Production Plus.
-- [ ] Produire et verifier le crop portrait 3:4 avant son upload comme second asset Mux.
+- [x] Comparer l'asset Production Basic avec l'asset Development Plus : rendu visuellement equivalent en 1080p et en 569 x 847, avec environ 20 a 30 % de bitrate en moins aux renditions courantes ; conserver Basic en Production.
+- [x] Produire et verifier le crop portrait 3:4 : centre 1728 x 2304, master H.264 1080 x 1440 a 24 fps, CRF 16, 8,46 s, 4,33 Mio et sans audio.
+- [x] Publier le second asset Mux Production en Basic 1080p, signed uniquement, `master_access` a `none` et sans rendition statique.
 - [x] Envoyer le master directement aux environnements Mux Development et Production sans passer par le depot Git.
 - [x] Verifier les renditions adaptatives 270p, 480p, 720p, 1080p, 1440p et 2160p exposees par le manifeste Mux signe.
 - [ ] Conserver l'encodage WebM/MP4 local uniquement comme plan de sortie documente.
@@ -270,7 +271,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [ ] Tester le mode economie de donnees et un reseau lent.
 - [ ] Tester le zoom a 200 % et la navigation clavier.
 - [ ] Verifier l'absence d'erreurs 404 et de contenu mixte.
-- [ ] Documenter la procedure d'encodage et de remplacement de la video.
+- [x] Documenter la procedure d'encodage portrait et fournir `npm run build:video-portrait` avec FFmpeg/FFprobe verrouilles localement.
 
 ## Budget de performance cible
 
@@ -309,7 +310,8 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-25 | P1 Video signee - environnement local | Secrets Mux Development isoles dans `.dev.vars`, endpoint Worker local auto-detecte et Playback Restriction active pour localhost | 6 tests Worker reussis ; manifeste HLS restreint HTTP 200 depuis localhost ; sans referrer ou depuis un domaine tiers refuse en HTTP 403 | Partiel : restriction et deploiement Production en attente |
 | 2026-08-25 | P1 Video signee - qualite et boucle | Suppression du test de debit en rendition minimale, estimation ABR adaptee au viewport, manifeste paysage jusqu'a 2160p, `hls.js` prioritaire, derniere frame conservee pendant un stall et reprise explicite a la fin | Chrome : 720p a 569 px, 1080p a 1440 px, 1440p a 2560 px, 2160p a 3840 px ; deux boucles sans retour au poster ; source premiere/derniere frame coherente | Termine en Development ; validation multi-navigateurs restante |
 | 2026-08-25 | Observabilite video | Decision de reporter Mux Data SDK : la consommation Mux et les logs Worker suffisent au lancement ; instrumentation QoE reservee au diagnostic d'incidents reels | Revue de l'integration `hls.js`, de sa valeur pour une video decorative et de son impact sur la confidentialite | Termine |
-| 2026-08-25 | P1 Video signee - Production | Asset Basic 2160p signe, restriction Mux stricte, nouvelle cle de signature, secrets Cloudflare chiffres, Worker deploye et endpoint/CSP configures | 6 tests Worker ; bundle 12,21 Kio ; HLS HTTP 200 avec 6 renditions ; tiers et absence de provenance HTTP 403 ; expiration a 63 s HTTP 403 ; cache segment 7 jours ; controle CSP reproductible | Partiel : deploiement GitHub Pages, validation navigateur et comparaison Basic/Plus restants |
+| 2026-08-25 | P1 Video signee - Production | Asset Basic 2160p signe, restriction Mux stricte, nouvelle cle de signature, secrets Cloudflare chiffres, Worker deploye et endpoint/CSP configures | 6 tests Worker ; bundle 12,21 Kio ; HLS HTTP 200 avec 6 renditions ; tiers et absence de provenance HTTP 403 ; expiration a 63 s HTTP 403 ; cache segment 7 jours ; controle CSP reproductible | Partiel : deploiement GitHub Pages et validation multi-navigateurs restants |
+| 2026-08-25 | P1 Video signee - portrait Production | Comparaison Basic/Plus tranchee en faveur de Basic ; pipeline FFmpeg reproductible ; asset portrait 3:4 Basic signe et Worker redeploye | 7 tests Worker ; master 1080 x 1440 valide ; HLS 270 x 360, 480 x 640 et 720 x 960 ; Chrome 569 x 847 ; acces sans jeton, tiers et sans provenance refuses en HTTP 403 | Termine ; rotation des identifiants Development traitee separement |
 
 ## References pour la decision video
 
