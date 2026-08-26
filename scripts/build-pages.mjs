@@ -1,4 +1,4 @@
-import { cp, mkdir, rm } from 'node:fs/promises';
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as esbuild from 'esbuild';
@@ -33,6 +33,21 @@ await esbuild.build({
   sourcemap: false,
   legalComments: 'none',
 });
+
+const sourceHtml = await readFile(join(rootDirectory, 'index.html'), 'utf8');
+const jsonLdMarker = /(<script\s+type="application\/ld\+json">)[\s\S]*?(<\/script>)/u;
+const jsonLdBlock = sourceHtml.match(jsonLdMarker)?.[0];
+if (!jsonLdBlock) {
+  throw new Error('JSON-LD block is missing from index.html.');
+}
+
+const htmlOutsideJsonLd = sourceHtml.replace(jsonLdBlock, '__JSON_LD_BLOCK__');
+const minifiedHtml = htmlOutsideJsonLd
+  .replace(/<!--[\s\S]*?-->/gu, '')
+  .replace(/>\s+</gu, '><')
+  .trim()
+  .replace('__JSON_LD_BLOCK__', jsonLdBlock);
+await writeFile(join(siteDirectory, 'index.html'), `${minifiedHtml}\n`, 'utf8');
 
 await cp(join(rootDirectory, 'js', 'vendor'), join(siteDirectory, 'js', 'vendor'), { recursive: true });
 

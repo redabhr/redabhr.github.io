@@ -266,6 +266,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Normaliser les dossiers publies (`css/`, `js/`) et supprimer les pages `index.html` vides historiques.
 - [x] Separer les sources de generation des assets publies et assembler un artefact Pages par liste blanche.
 - [x] Minifier JavaScript et CSS dans l'artefact de production, sans source maps ni obfuscation fragile.
+- [x] Minifier l'HTML de production en preservant exactement le bloc JSON-LD utilise par le hash CSP.
 - [x] Conserver les fichiers de configuration IDE et les captures de revue locales hors de la publication via `.gitignore`.
 - [ ] Verifier le comportement sans JavaScript.
 - [ ] Verifier le comportement lorsque les domaines tiers sont bloques.
@@ -326,6 +327,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-26 | Smoke test Production | Site, assets critiques, restrictions Worker et URL HLS signee controles sur le domaine public ; HTML verifie sans secrets ni YouTube | HTTP 200 pour la page/assets ; Worker sans origine et tiers HTTP 403 ; origine autorisee HTTP 200 ; manifest HLS accessible | Termine ; Lighthouse et tests multi-navigateurs restants |
 | 2026-08-26 | Lighthouse Production - premiere passe | Mesures Lighthouse mobile et desktop sur `https://reda.bouhaddar.com` | Mobile : performance 99, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 1,4 s, CLS 0 ; desktop : performance 95, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 1,2 s, CLS 0, TBT 110 ms | Premiere passe terminee ; trois repetitions, waterfall et multi-navigateurs restants |
 | 2026-08-26 | Lighthouse Production - medianes | Deux repetitions supplementaires par profil avec Lighthouse 13.4.1 et reseau mobile simule | Mobile mediane : performance 82, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 1,61 s, CLS 0, TBT 714 ms ; desktop mediane : performance 99, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 0,88 s, CLS 0, TBT 10 ms | Mediane enregistree ; variabilite mobile liee au temps de blocage du bundle/video a analyser |
+| 2026-08-26 | Packaging de production - HTML | Minification prudente de `index.html` dans `_site`, sans modifier le JSON-LD ni son hash CSP | HTML 11,4 Ko contre 12,0 Ko source ; JSON-LD identique ; aucune source map | Termine |
 
 ## References pour la decision video
 
