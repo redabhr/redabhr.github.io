@@ -71,6 +71,10 @@ describe('video token endpoint', () => {
         assert.equal(response.status, 200);
         assert.equal(response.headers.get('Access-Control-Allow-Origin'), allowedOrigin);
         assert.equal(response.headers.get('Cache-Control'), 'no-store, max-age=0');
+        assert.equal(response.headers.get('Content-Security-Policy'), "default-src 'none'; frame-ancestors 'none'; base-uri 'none'");
+        assert.equal(response.headers.get('Permissions-Policy'), 'camera=(), geolocation=(), microphone=()');
+        assert.equal(response.headers.get('X-Frame-Options'), 'DENY');
+        assert.equal(response.headers.get('X-Content-Type-Options'), 'nosniff');
         assert.equal(url.origin, 'https://stream.mux.com');
         assert.equal(url.pathname, `/${playbackId}.m3u8`);
         assert.equal(url.searchParams.get('token').split('.').length, 3);

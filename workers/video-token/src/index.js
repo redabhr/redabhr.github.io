@@ -415,9 +415,12 @@ function responseHeaders(origin, extraHeaders = {}) {
     return {
         'Cache-Control': 'no-store, max-age=0',
         'Content-Type': 'application/json; charset=utf-8',
+        'Content-Security-Policy': "default-src 'none'; frame-ancestors 'none'; base-uri 'none'",
+        'Permissions-Policy': 'camera=(), geolocation=(), microphone=()',
         'Referrer-Policy': 'no-referrer',
         'Vary': 'Origin',
         'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
         ...(origin ? { 'Access-Control-Allow-Origin': origin } : {}),
         ...extraHeaders
     };
