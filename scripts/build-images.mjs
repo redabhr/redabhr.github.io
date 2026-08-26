@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
 const rootDirectory = dirname(dirname(fileURLToPath(import.meta.url)));
-const sourcePath = join(rootDirectory, 'bg.jpg');
+const sourcePath = join(rootDirectory, 'scripts', 'assets', 'background-master.jpg');
 const outputDirectory = join(rootDirectory, 'media');
 const landscapeWidths = [1280, 1920, 2560];
 const portraitWidths = [480, 720, 1080];
@@ -13,7 +13,7 @@ await mkdir(outputDirectory, { recursive: true });
 
 const metadata = await sharp(sourcePath).metadata();
 if (!metadata.width || !metadata.height) {
-  throw new Error('Unable to read bg.jpg dimensions.');
+  throw new Error('Unable to read scripts/assets/background-master.jpg dimensions.');
 }
 
 const portraitCropWidth = Math.min(Math.round(metadata.height * 3 / 4), metadata.width);
