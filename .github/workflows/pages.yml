@@ -33,11 +33,14 @@ jobs:
       - name: Verify generated player and production policy
         run: |
           npm run build:video-player
+          npm run build:mux-data
           npm run check:csp
           npm run check:html
 
       - name: Assemble minified public artifact
         run: npm run build:pages
+        env:
+          MUX_DATA_ENV_KEY: ${{ vars.MUX_DATA_ENV_KEY }}
 
       - name: Verify artifact boundaries
         shell: bash

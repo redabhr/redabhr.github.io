@@ -25,8 +25,10 @@ const mimeTypes = {
 };
 
 function localIndex(html) {
+  const muxDataEnvKey = process.env.MUX_DATA_ENV_KEY?.trim() || '';
   return html
     .replace(/\s+data-video-token-endpoint="https:\/\/[^" ]+\/token"/u, '')
+    .replace(/data-mux-data-env-key="[^"]*"/u, `data-mux-data-env-key="${muxDataEnvKey.replace(/"/gu, '&quot;')}"`)
     .replace(/https:\/\/reda-background-video-token\.reda-background-video-token\.workers\.dev/gu, 'http://localhost:8787');
 }
 

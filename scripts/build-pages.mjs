@@ -41,7 +41,12 @@ if (!jsonLdBlock) {
   throw new Error('JSON-LD block is missing from index.html.');
 }
 
-const htmlOutsideJsonLd = sourceHtml.replace(jsonLdBlock, '__JSON_LD_BLOCK__');
+const muxDataEnvKey = process.env.MUX_DATA_ENV_KEY?.trim() || '';
+const htmlWithPublicConfig = sourceHtml.replace(
+  /data-mux-data-env-key="[^"]*"/u,
+  `data-mux-data-env-key="${muxDataEnvKey.replace(/"/gu, '&quot;')}"`
+);
+const htmlOutsideJsonLd = htmlWithPublicConfig.replace(jsonLdBlock, '__JSON_LD_BLOCK__');
 const minifiedHtml = htmlOutsideJsonLd
   .replace(/<!--[\s\S]*?-->/gu, '')
   .replace(/>\s+</gu, '><')

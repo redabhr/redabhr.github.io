@@ -3,6 +3,10 @@
   "name": "reda-background-video-token",
   "main": "src/index.js",
   "compatibility_date": "2026-08-23",
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
   "vars": {
     "ALLOWED_ORIGINS": "https://reda.bouhaddar.com",
     "MUX_PLAYBACK_ID_LANDSCAPE": "vv02Pg01GrrucgresYJHeWkaAALyN2H02yYS6fo019FaT8I",

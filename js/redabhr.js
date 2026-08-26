@@ -7,6 +7,11 @@
         'vendor/hls.light.min-1.7.0.js',
         currentScript?.src || document.baseURI
     ).toString();
+    const muxScriptUrl = new URL(
+        'vendor/mux-embed-5.18.0.js',
+        currentScript?.src || document.baseURI
+    ).toString();
+    const muxDataEnvKey = currentScript?.dataset.muxDataEnvKey?.trim();
     const PLAYER_TIMEOUT_MS = 15000;
     const TOKEN_TIMEOUT_MS = 6000;
     const TOKEN_EXPIRY_MARGIN_SECONDS = 10;
@@ -20,6 +25,7 @@
     let activeTokenExpiresAt = 0;
     let hls;
     let hlsPromise;
+    let muxPromise;
     let idleHandle;
     let playerTimeout;
     let stallFallbackTimeout;
@@ -235,6 +241,36 @@
         return hlsPromise;
     }
 
+    function loadMuxDataLibrary() {
+        if (!muxDataEnvKey) {
+            return Promise.resolve(undefined);
+        }
+
+        if (window.mux?.monitor) {
+            return Promise.resolve(window.mux);
+        }
+
+        if (muxPromise) {
+            return muxPromise;
+        }
+
+        muxPromise = new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = muxScriptUrl;
+            script.async = true;
+            script.onload = () => window.mux?.monitor
+                ? resolve(window.mux)
+                : reject(new Error('mux-embed did not initialize'));
+            script.onerror = () => reject(new Error('Unable to load mux-embed'));
+            document.head.append(script);
+        }).catch((error) => {
+            muxPromise = undefined;
+            throw error;
+        });
+
+        return muxPromise;
+    }
+
     function createVideoLayer() {
         const container = document.createElement('div');
         const video = document.createElement('video');
@@ -315,6 +351,7 @@
         });
 
         hls = instance;
+        monitorMuxData(instance, video, Hls, playback);
         instance.on(Hls.Events.MEDIA_ATTACHED, () => {
             if (instance === hls) {
                 instance.loadSource(playback.url);
@@ -332,6 +369,36 @@
         instance.on(Hls.Events.ERROR, (_event, data) => handleHlsError(Hls, instance, data));
         instance.attachMedia(video);
     }
+
+    function monitorMuxData(instance, video, Hls, playback) {
+        if (!muxDataEnvKey) {
+            return;
+        }
+
+        loadMuxDataLibrary()
+            .then((mux) => {
+                if (instance !== hls || !mux?.monitor) {
+                    return;
+                }
+
+                mux.monitor(video, {
+                    debug: false,
+                    hlsjs: instance,
+                    Hls,
+                    data: {
+                        env_key: muxDataEnvKey,
+                        player_name: 'Enterprise architecture background',
+                        player_version: '1.0',
+                        player_init_time: mux.utils?.now?.() || Date.now(),
+                        video_id: playback.variant || 'background'
+                    }
+                });
+            })
+            .catch(() => {
+                // Monitoring is optional and must never affect playback.
+            });
+    }
+
     function capHlsResolution(instance, levels) {
         const maximumHeight = getMaximumResolution();
         let bestIndex = 0;
