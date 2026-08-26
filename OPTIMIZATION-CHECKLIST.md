@@ -308,10 +308,10 @@ Cette section est conservee uniquement pour tracer la solution precedente. Elle 
 - [x] LCP inferieur a 2,5 s dans les scenarios Lighthouse mesures.
 - [x] CLS inferieur a 0,1 dans les scenarios Lighthouse mesures.
 - [ ] INP inferieur a 200 ms.
-- [ ] Image initiale adaptee au viewport et idealement inferieure a 300 Ko.
+- [x] Image initiale adaptee au viewport et inferieure a 300 Ko pour toutes les variantes publiees.
 - [ ] Video optionnelle idealement inferieure a 2 Mo par boucle initiale.
-- [ ] Aucun service tiers non essentiel avant le contenu critique.
-- [ ] Aucun script obsolete ou inutilise.
+- [x] Aucun service tiers non essentiel avant le contenu critique : Mux Data est charge apres le contenu et reste optionnel.
+- [x] Aucun script obsolete ou inutilise : jQuery, Universal Analytics, YouTube et CDN historiques sont absents.
 - [ ] Aucun flash blanc, noir ou changement brutal pendant le chargement.
 
 ## Validation finale
