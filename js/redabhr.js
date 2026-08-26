@@ -51,8 +51,9 @@
             return;
         }
 
+        const container = document.getElementById('redabhrBgVideo-container');
         const unavailable = reducedMotion.matches || !tokenEndpoint;
-        videoToggle.hidden = unavailable;
+        videoToggle.hidden = unavailable || !getVideoElement() || !container?.classList.contains('is-ready');
         videoToggle.setAttribute('aria-pressed', String(userPaused));
         videoToggle.setAttribute(
             'aria-label',
@@ -394,6 +395,7 @@
         window.clearTimeout(stallFallbackTimeout);
         stallFallbackTimeout = undefined;
         document.getElementById('redabhrBgVideo-container')?.classList.add('is-ready');
+        updateVideoToggle();
     }
 
     function scheduleStallFallback() {
@@ -545,11 +547,20 @@
 
         if (userPaused) {
             cancelScheduledVideo();
-            removePlayerLayer();
+            const video = getVideoElement();
+            if (video) {
+                video.pause();
+                hideVideoLayer();
+            }
             return;
         }
 
-        scheduleVideo();
+        const video = getVideoElement();
+        if (video && tokenIsFresh()) {
+            requestPlayback(video).catch(removePlayerLayer);
+        } else {
+            scheduleVideo();
+        }
     }
 
     videoToggle?.addEventListener('click', handleVideoToggle);
