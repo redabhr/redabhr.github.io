@@ -53,7 +53,8 @@
 
         const container = document.getElementById('redabhrBgVideo-container');
         const unavailable = reducedMotion.matches || !tokenEndpoint;
-        videoToggle.hidden = unavailable || !getVideoElement() || !container?.classList.contains('is-ready');
+        const hasReadyVideo = getVideoElement() && container?.classList.contains('is-ready');
+        videoToggle.hidden = unavailable || (!hasReadyVideo && !userPaused);
         videoToggle.setAttribute('aria-pressed', String(userPaused));
         videoToggle.setAttribute(
             'aria-label',
@@ -498,7 +499,6 @@
     function handleVisibilityChange() {
         if (document.visibilityState === 'hidden') {
             cancelScheduledVideo();
-            hideVideoLayer();
 
             const video = getVideoElement();
             if (video && !video.paused) {
@@ -550,7 +550,6 @@
             const video = getVideoElement();
             if (video) {
                 video.pause();
-                hideVideoLayer();
             }
             return;
         }
