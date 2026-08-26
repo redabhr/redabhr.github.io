@@ -37,6 +37,10 @@ for (const requiredOrigin of ['https://static.cloudflareinsights.com', 'https://
     }
 }
 
+if (!csp.includes("script-src-elem 'self' https://static.cloudflareinsights.com")) {
+    throw new Error('CSP must explicitly allow the Cloudflare Web Analytics module');
+}
+
 if (csp.includes('localhost')) {
     throw new Error('Production CSP must not allow localhost');
 }
