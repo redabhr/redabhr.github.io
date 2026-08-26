@@ -15,6 +15,7 @@
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const portraitVideo = window.matchMedia('(max-width: 720px) and (max-aspect-ratio: 3/4)');
     const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const videoToggle = document.getElementById('video-toggle');
 
     let activeTokenExpiresAt = 0;
     let hls;
@@ -27,6 +28,37 @@
     let pausedWhileHidden = false;
     let mediaRecoveryAttempts = 0;
     let networkRecoveryAttempts = 0;
+    let userPaused = readPlaybackPreference();
+
+    function readPlaybackPreference() {
+        try {
+            return window.localStorage.getItem('background-video') === 'paused';
+        } catch {
+            return false;
+        }
+    }
+
+    function writePlaybackPreference(paused) {
+        try {
+            window.localStorage.setItem('background-video', paused ? 'paused' : 'playing');
+        } catch {
+            // Storage may be unavailable in privacy-restricted contexts.
+        }
+    }
+
+    function updateVideoToggle() {
+        if (!videoToggle) {
+            return;
+        }
+
+        const unavailable = reducedMotion.matches || !tokenEndpoint;
+        videoToggle.hidden = unavailable;
+        videoToggle.setAttribute('aria-pressed', String(userPaused));
+        videoToggle.setAttribute(
+            'aria-label',
+            userPaused ? 'Play background animation' : 'Pause background animation'
+        );
+    }
 
     function resolveTokenEndpoint() {
         const configuredEndpoint = currentScript?.dataset.videoTokenEndpoint;
@@ -59,7 +91,7 @@
     }
 
     function canLoadVideo() {
-        if (!tokenEndpoint || reducedMotion.matches || document.visibilityState !== 'visible') {
+        if (!tokenEndpoint || userPaused || reducedMotion.matches || document.visibilityState !== 'visible') {
             return false;
         }
 
@@ -408,6 +440,7 @@
         document.getElementById('redabhrBgVideo-container')?.remove();
         starting = false;
         pausedWhileHidden = false;
+        updateVideoToggle();
     }
 
     async function startVideo() {
@@ -486,6 +519,7 @@
     }
 
     function handlePlaybackPreferenceChange() {
+        updateVideoToggle();
         if (!canLoadVideo()) {
             cancelScheduledVideo();
             removePlayerLayer();
@@ -504,6 +538,22 @@
         scheduleVideo();
     }
 
+    function handleVideoToggle() {
+        userPaused = !userPaused;
+        writePlaybackPreference(userPaused);
+        updateVideoToggle();
+
+        if (userPaused) {
+            cancelScheduledVideo();
+            removePlayerLayer();
+            return;
+        }
+
+        scheduleVideo();
+    }
+
+    videoToggle?.addEventListener('click', handleVideoToggle);
+    updateVideoToggle();
     document.addEventListener('visibilitychange', handleVisibilityChange);
     reducedMotion.addEventListener?.('change', handlePlaybackPreferenceChange);
     portraitVideo.addEventListener?.('change', handleVariantChange);

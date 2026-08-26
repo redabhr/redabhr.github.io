@@ -8,8 +8,8 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 
 ### P0 - A faire avant la cloture
 
-- [ ] Ajouter un bouton pause/lecture discret pour l'animation de fond.
-- [ ] Ajouter son nom accessible, son etat ARIA, son tooltip et la memorisation locale du choix.
+- [x] Ajouter un bouton pause/lecture discret pour l'animation de fond.
+- [x] Ajouter son nom accessible, son etat ARIA, son tooltip et la memorisation locale du choix.
 - [ ] Tester Chrome, Edge, Firefox, Safari macOS/iOS et Chrome Android.
 - [ ] Verifier la console, les erreurs reseau, le mode reduit, le reseau lent et le fallback sans JavaScript.
 
@@ -62,10 +62,10 @@ Dernier commit local non pousse au moment de cette revision : `d03f618 test(html
 
 ### Accessibilite de la video
 
-- [ ] Ajouter un bouton discret lecture/pause avec une icone explicite.
-- [ ] Ajouter un libelle accessible, un etat ARIA et un tooltip au bouton.
+- [x] Ajouter un bouton discret lecture/pause avec une icone explicite.
+- [x] Ajouter un libelle accessible, un etat ARIA et un tooltip au bouton.
 - [x] Conserver le respect de `prefers-reduced-motion`.
-- [ ] Memoriser localement le choix pause/lecture de l'utilisateur.
+- [x] Memoriser localement le choix pause/lecture de l'utilisateur.
 - [x] Verifier la navigation clavier et ajouter un focus visible aux liens de contact.
 
 ### Securite et liens obsoletes
@@ -356,6 +356,7 @@ Cette section est conservee uniquement pour tracer la solution precedente. Elle 
 | 2026-08-26 | Packaging de production - HTML | Minification prudente de `index.html` dans `_site`, sans modifier le JSON-LD ni son hash CSP | HTML 11,4 Ko contre 12,0 Ko source ; JSON-LD identique ; aucune source map | Termine |
 | 2026-08-26 | Identite favicon | Reconstruction vectorielle fidele du `R` du favicon 16 px, generation SVG, PNG 16/32 px et Apple Touch 180 px ; `.ico` historique conserve en fallback | Variantes generees par Sharp, artefact Pages et CSP valides | Termine |
 | 2026-08-26 | QA HTML automatisee | Ajout de `npm run check:html` pour controler h1, metadonnees, chemins d'assets, absence de YouTube et absence de secrets client | Controle local passe ; integre au workflow Pages | Termine |
+| 2026-08-26 | Controle video accessible | Bouton pause/lecture 44 px, icones SVG, libelle ARIA dynamique, focus visible et preference `localStorage` ; arret complet du player en pause | HTML/CSP/build Pages valides ; validation multi-navigateurs et comportement iOS restants | Termine cote code |
 | 2026-08-26 | Developpement local | Ajout de `npm run dev`, serveur statique Node avec bascule automatique vers le Worker local, et guide WebStorm | `http://localhost:8000` HTTP 200 ; CSP local adaptee ; assets CSS servis ; fichier Production inchange | Termine |
 | 2026-08-26 | Developpement local - lancement unique | `npm run dev` demarre le serveur du site et `wrangler dev` en parallele ; `npm run dev:site` reste disponible seul | Test Windows : site `8000` et Worker `8787` demarres avec secrets Development masques ; arret par `Ctrl+C` | Termine |
 

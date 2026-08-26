@@ -147,6 +147,55 @@ body::before {
     border: 0;
 }
 
+#video-toggle {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgba(226, 185, 139, 0.72);
+    border-radius: 50%;
+    background: rgba(13, 23, 38, 0.72);
+    color: var(--accent-text);
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+#video-toggle:hover,
+#video-toggle:focus-visible {
+    border-color: var(--accent-hover);
+    background: rgba(13, 23, 38, 0.92);
+    color: var(--accent-hover);
+}
+
+#video-toggle:focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 4px;
+}
+
+.video-toggle-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.video-toggle-play {
+    display: none;
+}
+
+#video-toggle[aria-pressed="true"] .video-toggle-pause {
+    display: none;
+}
+
+#video-toggle[aria-pressed="true"] .video-toggle-play {
+    display: block;
+}
+
 #contact {
     letter-spacing: 10px;
     padding-left: 6px
@@ -325,6 +374,11 @@ body::before {
         max-width: 360px;
         margin-bottom: 40px;
         font-size: 14px;
+    }
+
+    #video-toggle {
+        right: 16px;
+        bottom: 16px;
     }
 }
 
