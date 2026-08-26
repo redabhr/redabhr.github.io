@@ -46,7 +46,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 
 ### Securite et liens obsoletes
 
-- [x] Supprimer la redirection HTTPS vers HTTP de `.htaccess`.
+- [x] Supprimer la redirection HTTPS vers HTTP et la configuration Apache obsolete de `.htaccess` (GitHub Pages gere HTTPS et les en-tetes de publication).
 - [x] Verifier que le domaine public redirige HTTP vers HTTPS avec une reponse 301 GitHub Pages.
 - [x] Supprimer le lien Skype devenu obsolete.
 - [x] Tester le lien IRC et le supprimer, car il n'est plus pertinent pour le profil professionnel.
@@ -318,6 +318,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-26 | P1 Polices WOFF2 | Conversion des fontes RB en WOFF2, priorite WOFF2 dans `@font-face` et prechargement des deux graisses critiques | `rb-Light.woff2` 20,4 Ko et `rb-Regular.woff2` 20,7 Ko servis par Chrome en HTTP 200 ; aucun fallback WOFF observe | Partiel : subset et retrait des anciens formats restants |
 | 2026-08-26 | P1 Polices WOFF2 - subset | Subset des deux fontes a 183 glyphes, poids reduit a 9,8 Ko et 10,1 Ko, retrait des formats EOT/TTF/SVG | Chrome 375 x 812 conserve le rendu et charge les WOFF2 en HTTP 200 ; CSP valide | Termine ; source TTF conservee dans l'historique Git |
 | 2026-08-26 | Hygiene du depot | Dossiers d'assets renommes `s/` vers `css/` et `j/` vers `js/`, pages vides supprimees, references et controle CSP mis a jour | Build HLS reproductible, recherche des anciens chemins et `git diff --check` | Termine |
+| 2026-08-26 | Hygiene du depot - hebergement | Suppression de `.htaccess`, sans effet sur GitHub Pages et source de confusion pour la configuration HTTPS/cache | Audit de `CNAME`, GitHub Pages et contenu du fichier | Termine |
 
 ## References pour la decision video
 
