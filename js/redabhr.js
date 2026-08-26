@@ -329,6 +329,7 @@
 
         if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = playback.url;
+            monitorMuxData(undefined, video, undefined, playback);
             await requestPlayback(video);
             return;
         }
@@ -377,14 +378,12 @@
 
         loadMuxDataLibrary()
             .then((mux) => {
-                if (instance !== hls || !mux?.monitor) {
+                if ((instance && instance !== hls) || !mux?.monitor) {
                     return;
                 }
 
-                mux.monitor(video, {
+                const options = {
                     debug: false,
-                    hlsjs: instance,
-                    Hls,
                     data: {
                         env_key: muxDataEnvKey,
                         player_name: 'Enterprise architecture background',
@@ -392,7 +391,14 @@
                         player_init_time: mux.utils?.now?.() || Date.now(),
                         video_id: playback.variant || 'background'
                     }
-                });
+                };
+
+                if (instance && Hls) {
+                    options.hlsjs = instance;
+                    options.Hls = Hls;
+                }
+
+                mux.monitor(video, options);
             })
             .catch(() => {
                 // Monitoring is optional and must never affect playback.
