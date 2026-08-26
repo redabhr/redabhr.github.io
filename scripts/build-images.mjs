@@ -1,4 +1,4 @@
-import { mkdir } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
@@ -62,15 +62,18 @@ await sharp(sourcePath)
   .jpeg({ quality: 88, progressive: true, mozjpeg: true })
   .toFile(join(outputDirectory, 'og-enterprise-architect.jpg'));
 
-const touchIconSvg = Buffer.from(`
+const brandIconSvg = Buffer.from(`
   <svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
-    <rect width="180" height="180" rx="32" fill="#0d1726"/>
-    <rect x="18" y="18" width="144" height="144" rx="24" fill="none" stroke="#e2b98b" stroke-width="3"/>
-    <text x="90" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="62" font-weight="600" letter-spacing="2" fill="#f5f7fa">RB</text>
+    <rect width="180" height="180" fill="#0d1726"/>
+    <text x="90" y="129" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="126" font-weight="700" font-style="italic" fill="#dbe3ea">R</text>
   </svg>
 `);
-await sharp(touchIconSvg)
+await writeFile(join(outputDirectory, 'favicon.svg'), brandIconSvg);
+await sharp(brandIconSvg)
+  .resize(180, 180)
   .png({ compressionLevel: 9, palette: true })
   .toFile(join(outputDirectory, 'apple-touch-icon.png'));
+await sharp(brandIconSvg).resize(32, 32).png({ compressionLevel: 9, palette: true }).toFile(join(outputDirectory, 'favicon-32.png'));
+await sharp(brandIconSvg).resize(16, 16).png({ compressionLevel: 9, palette: true }).toFile(join(outputDirectory, 'favicon-16.png'));
 
 console.log('Responsive background images generated in media/.');
