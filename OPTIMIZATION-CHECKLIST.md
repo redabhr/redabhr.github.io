@@ -16,8 +16,8 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Verifier que Mux Data reste optionnel et que le blocage par extension ne degrade pas la video.
 - [ ] Confirmer les vues Mux Data Production et les beacons `litix.io` depuis un navigateur sans bloqueur.
 - [ ] Definir les alertes Mux/Cloudflare et verifier la retention des logs.
-- [ ] Ajouter les audits de dependances et les tests Worker au workflow Pages.
-- [ ] Evaluer l'ajout de `disableCookies` et `respectDoNotTrack` dans Mux Data.
+- [x] Ajouter les audits de dependances et les tests Worker au workflow Pages.
+- [x] Activer `disableCookies` et `respectDoNotTrack` dans Mux Data.
 - [ ] Mesurer INP, waterfall, cache froid/chaud et reseau mobile en production.
 - [ ] Valider Safari/iOS/Android, zoom 200 %, navigation clavier et bloqueurs.
 - [ ] Tester les cartes sociales et le JSON-LD avec les validateurs externes.

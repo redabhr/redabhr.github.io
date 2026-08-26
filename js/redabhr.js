@@ -384,6 +384,8 @@
 
                 const options = {
                     debug: false,
+                    disableCookies: true,
+                    respectDoNotTrack: true,
                     data: {
                         env_key: muxDataEnvKey,
                         player_name: 'Enterprise architecture background',

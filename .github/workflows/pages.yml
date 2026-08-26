@@ -30,6 +30,12 @@ jobs:
       - name: Install build dependencies
         run: npm ci --ignore-scripts
 
+      - name: Run automated quality and dependency checks
+        run: |
+          npm audit --omit=dev
+          npm test --prefix workers/video-token
+          npm audit --prefix workers/video-token
+
       - name: Verify generated player and production policy
         run: |
           npm run build:video-player
