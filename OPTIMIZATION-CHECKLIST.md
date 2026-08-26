@@ -262,7 +262,8 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 
 ## P2 - Robustesse et maintenance
 
-- [ ] Supprimer des fichiers publies les assets inutilises et formats historiques.
+- [x] Supprimer des fichiers publies les assets inutilises et formats historiques.
+- [x] Normaliser les dossiers publies (`css/`, `js/`) et supprimer les pages `index.html` vides historiques.
 - [x] Conserver les fichiers de configuration IDE et les captures de revue locales hors de la publication via `.gitignore`.
 - [ ] Verifier le comportement sans JavaScript.
 - [ ] Verifier le comportement lorsque les domaines tiers sont bloques.
@@ -316,6 +317,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-26 | P1 SEO et responsive local | Image Open Graph dediee 1200 x 630, metadonnees sociales completees, tableau remplace par Flexbox, `100svh` ajoute, CSS duplique consolide et `font-display: swap` active | Image sociale 92 Ko valide ; CSP valide ; rendu Chrome viewport CSS 320 x 812 et 375 x 812 sans debordement ; rendu desktop conserve | Partiel : validation des cartes sociales et mesures Lighthouse apres publication |
 | 2026-08-26 | P1 Polices WOFF2 | Conversion des fontes RB en WOFF2, priorite WOFF2 dans `@font-face` et prechargement des deux graisses critiques | `rb-Light.woff2` 20,4 Ko et `rb-Regular.woff2` 20,7 Ko servis par Chrome en HTTP 200 ; aucun fallback WOFF observe | Partiel : subset et retrait des anciens formats restants |
 | 2026-08-26 | P1 Polices WOFF2 - subset | Subset des deux fontes a 183 glyphes, poids reduit a 9,8 Ko et 10,1 Ko, retrait des formats EOT/TTF/SVG | Chrome 375 x 812 conserve le rendu et charge les WOFF2 en HTTP 200 ; CSP valide | Termine ; source TTF conservee dans l'historique Git |
+| 2026-08-26 | Hygiene du depot | Dossiers d'assets renommes `s/` vers `css/` et `j/` vers `js/`, pages vides supprimees, references et controle CSP mis a jour | Build HLS reproductible, recherche des anciens chemins et `git diff --check` | Termine |
 
 ## References pour la decision video
 

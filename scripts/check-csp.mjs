@@ -10,7 +10,7 @@ const jsonLdMatch = html.match(
     /<script\s+type="application\/ld\+json">([\s\S]*?)<\/script>/u
 );
 const endpointMatch = html.match(
-    /<script\s+src="j\/redabhr\.js"[\s\S]*?data-video-token-endpoint="([^"]+)"/u
+    /<script\s+src="js\/redabhr\.js"[\s\S]*?data-video-token-endpoint="([^"]+)"/u
 );
 
 if (!cspMatch || !jsonLdMatch || !endpointMatch) {

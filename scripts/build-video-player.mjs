@@ -5,8 +5,8 @@ import { fileURLToPath } from 'node:url';
 const hlsVersion = '1.7.0';
 const sourceUrl = new URL('../node_modules/hls.js/dist/hls.light.min.js', import.meta.url);
 const licenseUrl = new URL('../node_modules/hls.js/LICENSE', import.meta.url);
-const outputUrl = new URL(`../j/vendor/hls.light.min-${hlsVersion}.js`, import.meta.url);
-const outputLicenseUrl = new URL('../j/vendor/hls.js.LICENSE.txt', import.meta.url);
+const outputUrl = new URL(`../js/vendor/hls.light.min-${hlsVersion}.js`, import.meta.url);
+const outputLicenseUrl = new URL('../js/vendor/hls.js.LICENSE.txt', import.meta.url);
 
 await mkdir(dirname(fileURLToPath(outputUrl)), { recursive: true });
 
