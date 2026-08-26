@@ -57,4 +57,9 @@ for (const width of portraitWidths) {
   );
 }
 
+await sharp(sourcePath)
+  .resize({ width: 1200, height: 630, fit: 'cover', position: 'centre' })
+  .jpeg({ quality: 88, progressive: true, mozjpeg: true })
+  .toFile(join(outputDirectory, 'og-enterprise-architect.jpg'));
+
 console.log('Responsive background images generated in media/.');

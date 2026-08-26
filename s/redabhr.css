@@ -3,7 +3,8 @@
     src: url(../fonts/rb-Light.eot);
     src: local(☺), url(../fonts/rb-Light.woff) format("woff"), url(../fonts/rb-Light.ttf) format("truetype"), url(../fonts/rb-Light.svg) format("svg");
     font-weight: 400;
-    font-style: normal
+    font-style: normal;
+    font-display: swap
 }
 
 @font-face {
@@ -11,30 +12,8 @@
     src: url(../fonts/rb-Regular.eot);
     src: local(☺), url(../fonts/rb-Regular.woff) format("woff"), url(../fonts/rb-Regular.ttf) format("truetype"), url(../fonts/rb-Regular.svg) format("svg");
     font-weight: 700;
-    font-style: normal
-}
-
-#page-table {
-    height: 100%;
-    width: 50%;
-    border-collapse: collapse;
-    table-layout: fixed;
-    text-align: center;
-    z-index: 99;
-    position: relative
-}
-
-#page-td {
-    height: 100%;
-    padding: 0;
-    vertical-align: middle
-}
-
-#global {
-    width: 800px;
-    margin: 20px auto;
-    text-align: left;
-    padding: 10px 20px
+    font-style: normal;
+    font-display: swap
 }
 
 * {
@@ -84,14 +63,34 @@ a:active {
 
 html {
     background-color: #0d1726;
-    height: 100%
+    height: 100%;
 }
 
 body {
     height: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
     margin: 0;
     padding: 0;
-    position: relative
+    position: relative;
+}
+
+#page-layout {
+    position: relative;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    width: 50%;
+    min-height: 100%;
+    text-align: center;
+}
+
+#global {
+    box-sizing: border-box;
+    width: 800px;
+    margin: 20px auto;
+    padding: 10px 20px 10px 46px;
+    text-align: left;
 }
 
 #page-background {
@@ -150,29 +149,6 @@ body::before {
     border: 0;
 }
 
-#page-table {
-    height: 100%;
-    width: 50%;
-    border-collapse: collapse;
-    text-align: center
-}
-
-#page-td {
-    height: 100%;
-    padding: 0;
-    vertical-align: middle
-}
-
-#global {
-    width: 800px;
-    margin: 20px auto;
-    text-align: left
-}
-
-#global {
-    padding: 10px 20px
-}
-
 #contact {
     letter-spacing: 10px;
     padding-left: 6px
@@ -185,11 +161,6 @@ body::before {
     --accent: #d4a269;
     --accent-text: #efbd82;
     --accent-hover: #ffffff;
-}
-
-#global {
-    box-sizing: border-box;
-    padding-left: 46px;
 }
 
 .reda-bouhaddar {
@@ -242,6 +213,11 @@ body::before {
     font-size: 16px;
     line-height: 1.6;
     color: var(--text-supporting);
+    overflow-wrap: anywhere;
+}
+
+.expertise span {
+    display: inline;
 }
 
 #contact {
@@ -322,7 +298,7 @@ body::before {
 }
 
 @media (max-width: 720px) {
-    #page-table {
+    #page-layout {
         width: 100%;
     }
 
@@ -354,6 +330,12 @@ body::before {
     }
 }
 
+@media (max-width: 420px) {
+    .reda-bouhaddar {
+        font-size: 32px;
+    }
+}
+
 @media (max-width: 360px) {
     #global {
         padding-right: 24px;
@@ -361,7 +343,7 @@ body::before {
     }
 
     .reda-bouhaddar {
-        font-size: 33px;
+        font-size: 27px;
     }
 
     .profil {
@@ -370,7 +352,11 @@ body::before {
 
     .expertise {
         max-width: 300px;
-        font-size: 13px;
+        font-size: 12px;
+    }
+
+    .expertise span {
+        display: block;
     }
 
     #contact {

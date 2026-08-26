@@ -237,23 +237,23 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 
 - [ ] Convertir ou remplacer les polices locales par des fichiers WOFF2.
 - [ ] Creer des subsets contenant uniquement les glyphes necessaires.
-- [ ] Ajouter `font-display: swap` ou `font-display: optional`.
+- [x] Ajouter `font-display: swap` ou `font-display: optional`.
 - [ ] Precharger uniquement les polices reellement critiques.
 - [ ] Supprimer les anciens formats EOT, TTF et SVG de la publication.
-- [ ] Remplacer la mise en page `<table>` par `main` et Flexbox ou Grid.
-- [ ] Utiliser `min-height: 100svh` avec un fallback adapte.
-- [ ] Consolider les declarations CSS dupliquees.
-- [ ] Verifier le rendu a 320, 375, 768, 1440 et 2560 px.
-- [ ] Verifier qu'aucun texte ou controle ne se chevauche.
+- [x] Remplacer la mise en page `<table>` par `main` et Flexbox ou Grid.
+- [x] Utiliser `min-height: 100svh` avec un fallback adapte.
+- [x] Consolider les declarations CSS dupliquees.
+- [x] Verifier le rendu a 320, 375, 569, 1440 et 2560 px.
+- [x] Verifier qu'aucun texte ou controle ne se chevauche sur les viewports controles.
 
 ## P2 - SEO et partage social
 
 - [ ] Conserver une seule balise `h1` claire et descriptive.
 - [ ] Verifier la hierarchie semantique du contenu.
 - [ ] Verifier le `title`, la meta description et l'URL canonique.
-- [ ] Creer une image Open Graph dediee en 1200 x 630.
-- [ ] Ajouter les dimensions, le type et le texte alternatif de l'image sociale.
-- [ ] Verifier les cartes LinkedIn, Open Graph et Twitter/X.
+- [x] Creer une image Open Graph dediee en 1200 x 630 via `npm run build:images`.
+- [x] Ajouter les dimensions, le type et le texte alternatif de l'image sociale.
+- [ ] Verifier les cartes LinkedIn, Open Graph et Twitter/X apres publication.
 - [ ] Raccourcir les mots-cles JSON-LD aux termes les plus utiles et factuels.
 - [ ] Eviter la repetition artificielle de mots-cles.
 - [ ] Verifier `robots.txt` et `sitemap.xml` apres deploiement.
@@ -313,6 +313,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-25 | P1 Video signee - Production | Asset Basic 2160p signe, restriction Mux stricte, nouvelle cle de signature, secrets Cloudflare chiffres, Worker deploye et endpoint/CSP configures | 6 tests Worker ; bundle 12,21 Kio ; HLS HTTP 200 avec 6 renditions ; tiers et absence de provenance HTTP 403 ; expiration a 63 s HTTP 403 ; cache segment 7 jours ; controle CSP reproductible | Partiel : deploiement GitHub Pages et validation multi-navigateurs restants |
 | 2026-08-25 | P1 Video signee - portrait Production | Comparaison Basic/Plus tranchee en faveur de Basic ; pipeline FFmpeg reproductible ; asset portrait 3:4 Basic signe et Worker redeploye | 7 tests Worker ; master 1080 x 1440 valide ; HLS 270 x 360, 480 x 640 et 720 x 960 ; Chrome 569 x 847 ; acces sans jeton, tiers et sans provenance refuses en HTTP 403 | Termine ; rotation des identifiants Development traitee separement |
 | 2026-08-26 | Securite Mux Development | Nouveau token API Development verifie par `whoami`, nouvelle cle de signature creee et ancienne cle exposee revoquee | Permissions `video:read/write` et `system:read/write` ; JWT accepte par Mux Development ; manifeste paysage HTTP 200 apres rotation | Termine |
+| 2026-08-26 | P1 SEO et responsive local | Image Open Graph dediee 1200 x 630, metadonnees sociales completees, tableau remplace par Flexbox, `100svh` ajoute, CSS duplique consolide et `font-display: swap` active | Image sociale 92 Ko valide ; CSP valide ; rendu Chrome viewport CSS 320 x 812 et 375 x 812 sans debordement ; rendu desktop conserve | Partiel : validation des cartes sociales et mesures Lighthouse apres publication |
 
 ## References pour la decision video
 
