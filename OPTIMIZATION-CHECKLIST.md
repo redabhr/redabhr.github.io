@@ -256,7 +256,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [ ] Verifier les cartes LinkedIn, Open Graph et Twitter/X apres publication.
 - [ ] Raccourcir les mots-cles JSON-LD aux termes les plus utiles et factuels.
 - [ ] Eviter la repetition artificielle de mots-cles.
-- [ ] Verifier `robots.txt` et `sitemap.xml` apres deploiement.
+- [x] Verifier `robots.txt` et `sitemap.xml` apres deploiement.
 - [ ] Ajouter ou moderniser le favicon et l'icone Apple Touch.
 - [ ] Tester les donnees structurees avec l'outil Google Rich Results.
 
@@ -296,7 +296,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [ ] Verifier la page sur une connexion mobile simulee.
 - [ ] Verifier la page avec cache vide puis avec cache chaud.
 - [ ] Verifier accessibilite, SEO et contrastes.
-- [ ] Verifier la page deployee sur `https://reda.bouhaddar.com`.
+- [x] Verifier la page deployee sur `https://reda.bouhaddar.com`.
 - [ ] Mettre a jour cette checklist apres chaque lot de changements.
 
 ## Journal d'avancement
@@ -323,6 +323,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-26 | Hygiene du depot - hebergement | Suppression de `.htaccess`, sans effet sur GitHub Pages et source de confusion pour la configuration HTTPS/cache | Audit de `CNAME`, GitHub Pages et contenu du fichier | Termine |
 | 2026-08-26 | Packaging de production | Source image deplacee dans `scripts/assets/`, fallback 2560 px optimise et workflow Pages avec artefact en liste blanche | Builds images/HLS, CSP, assemblage local de 33 fichiers sans scripts, Worker ni manifests Node | Termine ; activation Pages apres push |
 | 2026-08-26 | Packaging de production - minification | Ajout d'esbuild pour minifier les copies JavaScript/CSS dans `_site`, suppression des references source map HLS | Artefact local : JS 6,4 Ko, CSS 4,5 Ko, aucune source map ni fichier de developpement | Termine ; validation visuelle apres publication |
+| 2026-08-26 | Smoke test Production | Site, assets critiques, restrictions Worker et URL HLS signee controles sur le domaine public ; HTML verifie sans secrets ni YouTube | HTTP 200 pour la page/assets ; Worker sans origine et tiers HTTP 403 ; origine autorisee HTTP 200 ; manifest HLS accessible | Termine ; Lighthouse et tests multi-navigateurs restants |
 
 ## References pour la decision video
 
