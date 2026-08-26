@@ -15,8 +15,8 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 
 ### P1 - Mesure et exploitation
 
-- [ ] Decider explicitement entre Mux Data, une analytics sans cookies ou l'absence de mesure.
-- [ ] Si Mux Data est active, integrer uniquement le SDK HLS.js avec une cle `ENV_KEY` publique et mesurer le QoE utile.
+- [x] Decision : activer Mux Data uniquement comme monitoring QoE optionnel, sans outil d'audience general.
+- [x] Integrer `mux-embed` localement avec une `ENV_KEY` publique, sans bloquer la lecture si le SDK ou le beacon est bloque.
 - [ ] Definir les seuils d'alerte Mux/Cloudflare et documenter la rotation des secrets.
 - [ ] Verifier les cartes Open Graph/LinkedIn et les donnees structurees apres publication.
 
@@ -56,9 +56,9 @@ Dernier commit local non pousse au moment de cette revision : `d03f618 test(html
 - [x] Verifier qu'aucune requete vers `google-analytics.com` ne subsiste.
 - [x] Decision : ne pas ajouter de mesure d'audience a ce stade.
 - [x] Ne configurer aucun nouvel outil de mesure sans besoin explicite et strategie de consentement.
-- [x] Decision : ne pas integrer Mux Data SDK a ce stade ; il mesure la qualite de lecture mais n'ameliore ni la diffusion, ni la boucle, ni la protection.
-- [x] Conserver Mux Data comme outil de diagnostic QoE optionnel si des erreurs, lenteurs de demarrage ou rebufferings apparaissent en production.
-- [x] Eviter le chargement de services tiers de tracking avant consentement : YouTube et les outils de mesure sont absents ; Mux est limite a la diffusion video necessaire.
+- [x] Integrer Mux Data comme outil de diagnostic QoE optionnel ; il mesure la qualite de lecture mais n'ameliore ni la diffusion, ni la boucle, ni la protection.
+- [x] Charger le SDK Mux Data uniquement lorsque `MUX_DATA_ENV_KEY` est configuree, avec fallback silencieux si un bloqueur refuse les beacons.
+- [x] Eviter tout outil d'audience general : Mux Data reste limite aux signaux techniques de lecture video.
 
 ### Accessibilite de la video
 
@@ -240,7 +240,7 @@ Dernier commit local non pousse au moment de cette revision : `d03f618 test(html
 - [x] Supprimer la requete vers `ajax.googleapis.com`.
 - [x] Remplacer Font Awesome 4.6 par des SVG locaux normalises.
 - [x] Supprimer la requete vers `maxcdn.bootstrapcdn.com`.
-- [x] Encapsuler le code applicatif JavaScript et ne conserver que le global `Hls` du fichier fournisseur local charge a la demande.
+- [x] Encapsuler le code applicatif JavaScript et ne conserver que les globals fournisseurs `Hls` et `mux` des fichiers locaux charges a la demande.
 - [x] Ajouter une gestion explicite des erreurs et des timeouts.
 - [x] Supprimer le recalcul JavaScript au `resize` au profit de `object-fit: cover` natif ; ne reagir qu'au changement de variante portrait/paysage.
 - [ ] Verifier qu'aucune erreur n'apparait dans la console.
@@ -340,6 +340,7 @@ Cette section est conservee uniquement pour tracer la solution precedente. Elle 
 | 2026-08-25 | P1 Video signee - environnement local | Secrets Mux Development isoles dans `.dev.vars`, endpoint Worker local auto-detecte et Playback Restriction active pour localhost | 6 tests Worker reussis ; manifeste HLS restreint HTTP 200 depuis localhost ; sans referrer ou depuis un domaine tiers refuse en HTTP 403 | Termine ; rotation des credentials Development effectuee le 2026-08-26 |
 | 2026-08-25 | P1 Video signee - qualite et boucle | Suppression du test de debit en rendition minimale, estimation ABR adaptee au viewport, manifeste paysage jusqu'a 2160p, `hls.js` prioritaire, derniere frame conservee pendant un stall et reprise explicite a la fin | Chrome : 720p a 569 px, 1080p a 1440 px, 1440p a 2560 px, 2160p a 3840 px ; deux boucles sans retour au poster ; source premiere/derniere frame coherente | Termine en Development ; validation multi-navigateurs restante |
 | 2026-08-25 | Observabilite video | Decision de reporter Mux Data SDK : la consommation Mux et les logs Worker suffisent au lancement ; instrumentation QoE reservee au diagnostic d'incidents reels | Revue de l'integration `hls.js`, de sa valeur pour une video decorative et de son impact sur la confidentialite | Termine |
+| 2026-08-26 | Observabilite video - integration optionnelle | SDK `mux-embed` 5.18.0 local, cle `MUX_DATA_ENV_KEY` injectee au build, monitoring HLS.js et HLS natif, beacons `litix.io` autorises par CSP, observabilite Workers activee | Tests Worker 7/7, build Pages, CSP, site production HTTP 200, token et manifeste HLS HTTP 200 ; validation de vue Mux Data encore dependante du navigateur et du dashboard | Termine cote code ; confirmation dashboard restante |
 | 2026-08-25 | P1 Video signee - Production | Asset Basic 2160p signe, restriction Mux stricte, nouvelle cle de signature, secrets Cloudflare chiffres, Worker deploye et endpoint/CSP configures | 6 tests Worker ; bundle 12,21 Kio ; HLS HTTP 200 avec 6 renditions ; tiers et absence de provenance HTTP 403 ; expiration a 63 s HTTP 403 ; cache segment 7 jours ; controle CSP reproductible | Termine ; validation multi-navigateurs restante |
 | 2026-08-25 | P1 Video signee - portrait Production | Comparaison Basic/Plus tranchee en faveur de Basic ; pipeline FFmpeg reproductible ; asset portrait 3:4 Basic signe et Worker redeploye | 7 tests Worker ; master 1080 x 1440 valide ; HLS 270 x 360, 480 x 640 et 720 x 960 ; Chrome 569 x 847 ; acces sans jeton, tiers et sans provenance refuses en HTTP 403 | Termine ; rotation des identifiants Development traitee separement |
 | 2026-08-26 | Securite Mux Development | Nouveau token API Development verifie par `whoami`, nouvelle cle de signature creee et ancienne cle exposee revoquee | Permissions `video:read/write` et `system:read/write` ; JWT accepte par Mux Development ; manifeste paysage HTTP 200 apres rotation | Termine |
