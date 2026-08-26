@@ -1,6 +1,21 @@
 # Developpement local
 
-Le site statique et le Worker se lancent dans deux processus distincts.
+Le site statique et le Worker peuvent etre lances ensemble avec une seule commande.
+
+## Lancement unique
+
+Depuis la racine :
+
+```powershell
+npm install
+cd workers/video-token
+npm install
+cd ../..
+npm run dev
+```
+
+Cette commande demarre le site sur `http://localhost:8000` et le Worker sur
+`http://localhost:8787`. `Ctrl+C` arrete proprement les deux processus.
 
 ## Site
 
@@ -8,7 +23,7 @@ Depuis la racine :
 
 ```powershell
 npm install
-npm run dev
+npm run dev:site
 ```
 
 Ouvrir `http://localhost:8000`.

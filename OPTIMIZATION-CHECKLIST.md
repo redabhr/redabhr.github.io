@@ -357,6 +357,7 @@ Cette section est conservee uniquement pour tracer la solution precedente. Elle 
 | 2026-08-26 | Identite favicon | Reconstruction vectorielle fidele du `R` du favicon 16 px, generation SVG, PNG 16/32 px et Apple Touch 180 px ; `.ico` historique conserve en fallback | Variantes generees par Sharp, artefact Pages et CSP valides | Termine |
 | 2026-08-26 | QA HTML automatisee | Ajout de `npm run check:html` pour controler h1, metadonnees, chemins d'assets, absence de YouTube et absence de secrets client | Controle local passe ; integre au workflow Pages | Termine |
 | 2026-08-26 | Developpement local | Ajout de `npm run dev`, serveur statique Node avec bascule automatique vers le Worker local, et guide WebStorm | `http://localhost:8000` HTTP 200 ; CSP local adaptee ; assets CSS servis ; fichier Production inchange | Termine |
+| 2026-08-26 | Developpement local - lancement unique | `npm run dev` demarre le serveur du site et `wrangler dev` en parallele ; `npm run dev:site` reste disponible seul | Test Windows : site `8000` et Worker `8787` demarres avec secrets Development masques ; arret par `Ctrl+C` | Termine |
 
 ## References pour la decision video
 
