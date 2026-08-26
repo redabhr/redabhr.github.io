@@ -329,6 +329,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-26 | Lighthouse Production - medianes | Deux repetitions supplementaires par profil avec Lighthouse 13.4.1 et reseau mobile simule | Mobile mediane : performance 82, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 1,61 s, CLS 0, TBT 714 ms ; desktop mediane : performance 99, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 0,88 s, CLS 0, TBT 10 ms | Mediane enregistree ; variabilite mobile liee au temps de blocage du bundle/video a analyser |
 | 2026-08-26 | Packaging de production - HTML | Minification prudente de `index.html` dans `_site`, sans modifier le JSON-LD ni son hash CSP | HTML 11,4 Ko contre 12,0 Ko source ; JSON-LD identique ; aucune source map | Termine |
 | 2026-08-26 | Identite favicon | Reconstruction vectorielle fidele du `R` du favicon 16 px, generation SVG, PNG 16/32 px et Apple Touch 180 px ; `.ico` historique conserve en fallback | Variantes generees par Sharp, artefact Pages et CSP valides | Termine |
+| 2026-08-26 | QA HTML automatisee | Ajout de `npm run check:html` pour controler h1, metadonnees, chemins d'assets, absence de YouTube et absence de secrets client | Controle local passe ; integre au workflow Pages | Termine |
 
 ## References pour la decision video
 

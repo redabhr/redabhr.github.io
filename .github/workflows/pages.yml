@@ -34,6 +34,7 @@ jobs:
         run: |
           npm run build:video-player
           npm run check:csp
+          npm run check:html
 
       - name: Assemble minified public artifact
         run: npm run build:pages
