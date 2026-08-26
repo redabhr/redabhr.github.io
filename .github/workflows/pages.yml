@@ -35,17 +35,19 @@ jobs:
           npm run build:video-player
           npm run check:csp
 
-      - name: Assemble public artifact
+      - name: Assemble minified public artifact
+        run: npm run build:pages
+
+      - name: Verify artifact boundaries
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p _site
-          cp index.html CNAME favicon.ico robots.txt sitemap.xml _site/
-          cp -R css js fonts media _site/
           test ! -e _site/scripts
           test ! -e _site/workers
           test ! -e _site/package.json
           test ! -e _site/.env
+          test ! -e _site/js/redabhr.js.map
+          test ! -e _site/css/redabhr.css.map
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

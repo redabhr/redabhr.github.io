@@ -265,6 +265,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Supprimer des fichiers publies les assets inutilises et formats historiques.
 - [x] Normaliser les dossiers publies (`css/`, `js/`) et supprimer les pages `index.html` vides historiques.
 - [x] Separer les sources de generation des assets publies et assembler un artefact Pages par liste blanche.
+- [x] Minifier JavaScript et CSS dans l'artefact de production, sans source maps ni obfuscation fragile.
 - [x] Conserver les fichiers de configuration IDE et les captures de revue locales hors de la publication via `.gitignore`.
 - [ ] Verifier le comportement sans JavaScript.
 - [ ] Verifier le comportement lorsque les domaines tiers sont bloques.
@@ -321,6 +322,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-26 | Hygiene du depot | Dossiers d'assets renommes `s/` vers `css/` et `j/` vers `js/`, pages vides supprimees, references et controle CSP mis a jour | Build HLS reproductible, recherche des anciens chemins et `git diff --check` | Termine |
 | 2026-08-26 | Hygiene du depot - hebergement | Suppression de `.htaccess`, sans effet sur GitHub Pages et source de confusion pour la configuration HTTPS/cache | Audit de `CNAME`, GitHub Pages et contenu du fichier | Termine |
 | 2026-08-26 | Packaging de production | Source image deplacee dans `scripts/assets/`, fallback 2560 px optimise et workflow Pages avec artefact en liste blanche | Builds images/HLS, CSP, assemblage local de 33 fichiers sans scripts, Worker ni manifests Node | Termine ; activation Pages apres push |
+| 2026-08-26 | Packaging de production - minification | Ajout d'esbuild pour minifier les copies JavaScript/CSS dans `_site`, suppression des references source map HLS | Artefact local : JS 6,4 Ko, CSS 4,5 Ko, aucune source map ni fichier de developpement | Termine ; validation visuelle apres publication |
 
 ## References pour la decision video
 

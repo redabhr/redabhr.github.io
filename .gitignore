@@ -1,4 +1,5 @@
 node_modules/
+_site/
 
 # Upload directly to the video provider; never publish the 4K master on GitHub Pages.
 /media/enterprise_architect_background_loop.mp4

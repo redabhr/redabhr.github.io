@@ -12,7 +12,9 @@ await mkdir(dirname(fileURLToPath(outputUrl)), { recursive: true });
 
 const source = await readFile(sourceUrl, 'utf8');
 const withoutSourceMap = source
-    .replace(/\r?\n?\/\/# sourceMappingURL=.*$/u, '')
+    .split(/\r?\n/u)
+    .filter((line) => !line.startsWith('//# sourceMappingURL='))
+    .join('\n')
     .trimEnd();
 
 await writeFile(outputUrl, `${withoutSourceMap}\n`, 'utf8');
