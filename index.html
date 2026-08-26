@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Security-Policy"
-          content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'none'; script-src 'self' 'sha256-4WgsVNQElg8d7xVIyHZi7GBMY9QrC7nD05seD70cts0='; style-src 'self'; img-src 'self' data: https://*.litix.io; font-src 'self'; connect-src 'self' https://reda-background-video-token.reda-background-video-token.workers.dev https://*.mux.com https://*.litix.io; media-src 'self' blob: https://*.mux.com; worker-src 'self' blob:; child-src 'self' blob:">
+          content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-4WgsVNQElg8d7xVIyHZi7GBMY9QrC7nD05seD70cts0='; style-src 'self'; img-src 'self' data: https://*.litix.io; font-src 'self'; connect-src 'self' https://reda-background-video-token.reda-background-video-token.workers.dev https://*.mux.com https://*.litix.io https://cloudflareinsights.com; media-src 'self' blob: https://*.mux.com; worker-src 'self' blob:; child-src 'self' blob:">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Réda BOUHADDAR">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -206,8 +206,10 @@
         <path d="m8 5 11 7-11 7z" fill="currentColor"/>
     </svg>
 </button>
-    <script src="js/redabhr.js" defer
+<script src="js/redabhr.js" defer
         data-video-token-endpoint="https://reda-background-video-token.reda-background-video-token.workers.dev/token"
         data-mux-data-env-key=""></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"e5a3e83b104e47dd87ce7ba33991a73b"}'></script>
 </body>
 </html>

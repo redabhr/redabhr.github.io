@@ -31,6 +31,12 @@ if (!csp.includes(endpointOrigin)) {
     throw new Error(`CSP does not allow the video token endpoint: ${endpointOrigin}`);
 }
 
+for (const requiredOrigin of ['https://static.cloudflareinsights.com', 'https://cloudflareinsights.com']) {
+    if (!csp.includes(requiredOrigin)) {
+        throw new Error(`CSP does not allow Cloudflare Web Analytics: ${requiredOrigin}`);
+    }
+}
+
 if (csp.includes('localhost')) {
     throw new Error('Production CSP must not allow localhost');
 }
