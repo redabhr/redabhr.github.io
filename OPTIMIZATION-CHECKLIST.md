@@ -6,6 +6,23 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 
 ## Prochaines actions
 
+### Audit postproduction - 2026-08-26
+
+- [x] Executer `npm audit --omit=dev` sur le site : aucune vulnerabilite.
+- [x] Executer `npm audit` sur le Worker : aucune vulnerabilite.
+- [x] Verifier les tests Worker : 7 tests sur 7 reussis.
+- [x] Verifier le depot public : aucun secret, token longue duree ou master video publie.
+- [x] Verifier la publication : site, CSP, assets, token signe et manifeste HLS accessibles.
+- [x] Verifier que Mux Data reste optionnel et que le blocage par extension ne degrade pas la video.
+- [ ] Confirmer les vues Mux Data Production et les beacons `litix.io` depuis un navigateur sans bloqueur.
+- [ ] Definir les alertes Mux/Cloudflare et verifier la retention des logs.
+- [ ] Ajouter les audits de dependances et les tests Worker au workflow Pages.
+- [ ] Evaluer l'ajout de `disableCookies` et `respectDoNotTrack` dans Mux Data.
+- [ ] Mesurer INP, waterfall, cache froid/chaud et reseau mobile en production.
+- [ ] Valider Safari/iOS/Android, zoom 200 %, navigation clavier et bloqueurs.
+- [ ] Tester les cartes sociales et le JSON-LD avec les validateurs externes.
+- [ ] Documenter le plan de sortie Mux et conserver le master avec les recettes d'encodage.
+
 ### P0 - A faire avant la cloture
 
 - [x] Ajouter un bouton pause/lecture discret pour l'animation de fond.
@@ -360,6 +377,7 @@ Cette section est conservee uniquement pour tracer la solution precedente. Elle 
 | 2026-08-26 | Controle video accessible | Bouton pause/lecture 44 px, icones SVG, libelle ARIA dynamique, focus visible et preference `localStorage` ; pause sans destruction du player, reprise de la position et bouton visible uniquement apres `playing` | HTML/CSP/build Pages valides ; validation multi-navigateurs et comportement iOS restants | Termine cote code |
 | 2026-08-26 | Developpement local | Ajout de `npm run dev`, serveur statique Node avec bascule automatique vers le Worker local, et guide WebStorm | `http://localhost:8000` HTTP 200 ; CSP local adaptee ; assets CSS servis ; fichier Production inchange | Termine |
 | 2026-08-26 | Developpement local - lancement unique | `npm run dev` demarre le serveur du site et `wrangler dev` en parallele ; `npm run dev:site` reste disponible seul | Test Windows : site `8000` et Worker `8787` demarres avec secrets Development masques ; arret par `Ctrl+C` | Termine |
+| 2026-08-26 | Audit postproduction | Audit dependances, secrets, publication, CSP, Worker, HLS et resilience du fallback | `npm audit` sans vulnerabilite ; tests Worker 7/7 ; smoke test public HTTP 200 ; restrictions et manifeste HLS verifies | Termine cote automatisable ; validations appareils et dashboards restantes |
 
 ## References pour la decision video
 
