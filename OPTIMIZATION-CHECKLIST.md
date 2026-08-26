@@ -87,8 +87,8 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] L'image principale s'affiche sans flash blanc ou noir avant la video.
 - [x] Le mobile jusqu'au ratio 3:4 ne peut selectionner que les variantes portrait 480, 720 ou 1080 px.
 - [x] L'image est decouverte directement dans le HTML.
-- [ ] Le LCP mesure est inferieur a 2,5 s dans le scenario mobile cible.
-- [ ] Le CLS reste inferieur a 0,1.
+- [x] Le LCP mesure est inferieur a 2,5 s dans le scenario mobile cible.
+- [x] Le CLS reste inferieur a 0,1.
 
 ## P1 - Remplacement de YouTube
 
@@ -324,6 +324,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-26 | Packaging de production | Source image deplacee dans `scripts/assets/`, fallback 2560 px optimise et workflow Pages avec artefact en liste blanche | Builds images/HLS, CSP, assemblage local de 33 fichiers sans scripts, Worker ni manifests Node | Termine ; activation Pages apres push |
 | 2026-08-26 | Packaging de production - minification | Ajout d'esbuild pour minifier les copies JavaScript/CSS dans `_site`, suppression des references source map HLS | Artefact local : JS 6,4 Ko, CSS 4,5 Ko, aucune source map ni fichier de developpement | Termine ; validation visuelle apres publication |
 | 2026-08-26 | Smoke test Production | Site, assets critiques, restrictions Worker et URL HLS signee controles sur le domaine public ; HTML verifie sans secrets ni YouTube | HTTP 200 pour la page/assets ; Worker sans origine et tiers HTTP 403 ; origine autorisee HTTP 200 ; manifest HLS accessible | Termine ; Lighthouse et tests multi-navigateurs restants |
+| 2026-08-26 | Lighthouse Production - premiere passe | Mesures Lighthouse mobile et desktop sur `https://reda.bouhaddar.com` | Mobile : performance 99, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 1,4 s, CLS 0 ; desktop : performance 95, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 1,2 s, CLS 0, TBT 110 ms | Premiere passe terminee ; trois repetitions, waterfall et multi-navigateurs restants |
 
 ## References pour la decision video
 
