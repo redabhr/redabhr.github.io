@@ -257,7 +257,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [ ] Raccourcir les mots-cles JSON-LD aux termes les plus utiles et factuels.
 - [ ] Eviter la repetition artificielle de mots-cles.
 - [x] Verifier `robots.txt` et `sitemap.xml` apres deploiement.
-- [ ] Ajouter ou moderniser le favicon et l'icone Apple Touch.
+- [x] Ajouter ou moderniser le favicon et l'icone Apple Touch.
 - [ ] Tester les donnees structurees avec l'outil Google Rich Results.
 
 ## P2 - Robustesse et maintenance

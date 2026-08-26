@@ -62,4 +62,15 @@ await sharp(sourcePath)
   .jpeg({ quality: 88, progressive: true, mozjpeg: true })
   .toFile(join(outputDirectory, 'og-enterprise-architect.jpg'));
 
+const touchIconSvg = Buffer.from(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+    <rect width="180" height="180" rx="32" fill="#0d1726"/>
+    <rect x="18" y="18" width="144" height="144" rx="24" fill="none" stroke="#e2b98b" stroke-width="3"/>
+    <text x="90" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="62" font-weight="600" letter-spacing="2" fill="#f5f7fa">RB</text>
+  </svg>
+`);
+await sharp(touchIconSvg)
+  .png({ compressionLevel: 9, palette: true })
+  .toFile(join(outputDirectory, 'apple-touch-icon.png'));
+
 console.log('Responsive background images generated in media/.');
