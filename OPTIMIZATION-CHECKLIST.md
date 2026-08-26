@@ -235,10 +235,10 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 
 ## P1 - Polices et CSS
 
-- [ ] Convertir ou remplacer les polices locales par des fichiers WOFF2.
+- [x] Convertir ou remplacer les polices locales par des fichiers WOFF2.
 - [ ] Creer des subsets contenant uniquement les glyphes necessaires.
 - [x] Ajouter `font-display: swap` ou `font-display: optional`.
-- [ ] Precharger uniquement les polices reellement critiques.
+- [x] Precharger uniquement les polices reellement critiques.
 - [ ] Supprimer les anciens formats EOT, TTF et SVG de la publication.
 - [x] Remplacer la mise en page `<table>` par `main` et Flexbox ou Grid.
 - [x] Utiliser `min-height: 100svh` avec un fallback adapte.
@@ -314,6 +314,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-25 | P1 Video signee - portrait Production | Comparaison Basic/Plus tranchee en faveur de Basic ; pipeline FFmpeg reproductible ; asset portrait 3:4 Basic signe et Worker redeploye | 7 tests Worker ; master 1080 x 1440 valide ; HLS 270 x 360, 480 x 640 et 720 x 960 ; Chrome 569 x 847 ; acces sans jeton, tiers et sans provenance refuses en HTTP 403 | Termine ; rotation des identifiants Development traitee separement |
 | 2026-08-26 | Securite Mux Development | Nouveau token API Development verifie par `whoami`, nouvelle cle de signature creee et ancienne cle exposee revoquee | Permissions `video:read/write` et `system:read/write` ; JWT accepte par Mux Development ; manifeste paysage HTTP 200 apres rotation | Termine |
 | 2026-08-26 | P1 SEO et responsive local | Image Open Graph dediee 1200 x 630, metadonnees sociales completees, tableau remplace par Flexbox, `100svh` ajoute, CSS duplique consolide et `font-display: swap` active | Image sociale 92 Ko valide ; CSP valide ; rendu Chrome viewport CSS 320 x 812 et 375 x 812 sans debordement ; rendu desktop conserve | Partiel : validation des cartes sociales et mesures Lighthouse apres publication |
+| 2026-08-26 | P1 Polices WOFF2 | Conversion des fontes RB en WOFF2, priorite WOFF2 dans `@font-face` et prechargement des deux graisses critiques | `rb-Light.woff2` 20,4 Ko et `rb-Regular.woff2` 20,7 Ko servis par Chrome en HTTP 200 ; aucun fallback WOFF observe | Partiel : subset et retrait des anciens formats restants |
 
 ## References pour la decision video
 
