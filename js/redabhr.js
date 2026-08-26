@@ -387,7 +387,7 @@
             return;
         }
 
-        loadMuxDataLibrary()
+        const initializeMonitoring = () => loadMuxDataLibrary()
             .then((mux) => {
                 if ((instance && instance !== hls) || !mux?.monitor) {
                     return;
@@ -416,6 +416,21 @@
             .catch(() => {
                 // Monitoring is optional and must never affect playback.
             });
+
+        // Mux Data is not required for the first paint or for playback. Wait
+        // until the background is actually playing, then load it off the path
+        // used to establish the video stream.
+        const scheduleMonitoring = () => {
+            window.setTimeout(() => {
+                if ('requestIdleCallback' in window) {
+                    window.requestIdleCallback(initializeMonitoring, { timeout: 5000 });
+                } else {
+                    initializeMonitoring();
+                }
+            }, 4000);
+        };
+
+        video.addEventListener('playing', scheduleMonitoring, { once: true });
     }
 
     function capHlsResolution(instance, levels) {
@@ -648,12 +663,47 @@
         }
     }
 
+    function scheduleCloudflareAnalytics() {
+        const token = currentScript?.dataset.cloudflareAnalyticsToken?.trim();
+        if (!token) {
+            return;
+        }
+
+        const injectBeacon = () => {
+            if (document.querySelector('script[data-cf-beacon]')) {
+                return;
+            }
+
+            const beacon = document.createElement('script');
+            beacon.type = 'module';
+            beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+            beacon.crossOrigin = 'anonymous';
+            beacon.dataset.cfBeacon = JSON.stringify({ token });
+            document.head.append(beacon);
+        };
+
+        const scheduleIdle = () => {
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(injectBeacon, { timeout: 3000 });
+            } else {
+                window.setTimeout(injectBeacon, 1200);
+            }
+        };
+
+        if (document.readyState === 'complete') {
+            scheduleIdle();
+        } else {
+            window.addEventListener('load', scheduleIdle, { once: true });
+        }
+    }
+
     videoToggle?.addEventListener('click', handleVideoToggle);
     updateVideoToggle();
     document.addEventListener('visibilitychange', handleVisibilityChange);
     reducedMotion.addEventListener?.('change', handlePlaybackPreferenceChange);
     portraitVideo.addEventListener?.('change', handleVariantChange);
     connection?.addEventListener?.('change', handlePlaybackPreferenceChange);
+    scheduleCloudflareAnalytics();
 
     if (document.readyState === 'complete') {
         scheduleVideo();

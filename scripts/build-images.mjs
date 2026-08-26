@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
@@ -57,8 +57,27 @@ for (const width of portraitWidths) {
   );
 }
 
+// Keep the social preview faithful to the hero while embedding the key profile
+// signals directly in the raster asset used by LinkedIn and other crawlers.
+const rbRegularFont = (await readFile(join(rootDirectory, 'scripts', 'assets', 'rb-Regular.ttf'))).toString('base64');
+const socialCardOverlay = Buffer.from(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+    <style>
+      @font-face { font-family: RB; src: url(data:font/ttf;base64,${rbRegularFont}) format('truetype'); font-weight: 700; }
+    </style>
+    <rect x="92" y="174" width="64" height="4" rx="2" fill="#e8b879"/>
+    <g font-family="RB, Arial, Helvetica, sans-serif" font-weight="700" stroke="#071321" stroke-opacity="0.7" stroke-width="4" paint-order="stroke">
+      <text x="92" y="236" fill="#dbe3ea" font-size="38" letter-spacing="2">Réda BOUHADDAR</text>
+      <text x="92" y="302" fill="#ffffff" font-size="50">Enterprise Architect</text>
+      <text x="92" y="414" fill="#ffffff" font-size="39">Architecting Coherence.</text>
+      <text x="92" y="466" fill="#e8b879" font-size="39">Enabling the Future.</text>
+    </g>
+  </svg>
+`);
+
 await sharp(sourcePath)
   .resize({ width: 1200, height: 630, fit: 'cover', position: 'centre' })
+  .composite([{ input: socialCardOverlay }])
   .jpeg({ quality: 88, progressive: true, mozjpeg: true })
   .toFile(join(outputDirectory, 'og-enterprise-architect.jpg'));
 
