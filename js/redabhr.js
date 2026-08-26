@@ -1,6 +1,17 @@
 (() => {
     'use strict';
 
+    console.info(
+        '%c+--------------------------------------------------+\n'
+        + '| RÉDA BOUHADDAR                                   |\n'
+        + '| ENTERPRISE ARCHITECT                             |\n'
+        + '|                                                  |\n'
+        + '| ARCHITECTING COHERENCE. ENABLING THE FUTURE.     |\n'
+        + '| https://reda.bouhaddar.com                       |\n'
+        + '+--------------------------------------------------+',
+        'font-weight:600;color:##014e61'
+    );
+
     const currentScript = document.currentScript;
     const tokenEndpoint = resolveTokenEndpoint();
     const hlsScriptUrl = new URL(
