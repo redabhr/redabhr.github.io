@@ -289,8 +289,8 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 
 ## Validation finale
 
-- [ ] Executer Lighthouse mobile au moins trois fois et conserver la mediane.
-- [ ] Executer Lighthouse desktop au moins trois fois et conserver la mediane.
+- [x] Executer Lighthouse mobile au moins trois fois et conserver la mediane.
+- [x] Executer Lighthouse desktop au moins trois fois et conserver la mediane.
 - [ ] Comparer les resultats avec les mesures initiales.
 - [ ] Examiner la waterfall reseau dans les DevTools.
 - [ ] Verifier la page sur une connexion mobile simulee.
@@ -325,6 +325,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-26 | Packaging de production - minification | Ajout d'esbuild pour minifier les copies JavaScript/CSS dans `_site`, suppression des references source map HLS | Artefact local : JS 6,4 Ko, CSS 4,5 Ko, aucune source map ni fichier de developpement | Termine ; validation visuelle apres publication |
 | 2026-08-26 | Smoke test Production | Site, assets critiques, restrictions Worker et URL HLS signee controles sur le domaine public ; HTML verifie sans secrets ni YouTube | HTTP 200 pour la page/assets ; Worker sans origine et tiers HTTP 403 ; origine autorisee HTTP 200 ; manifest HLS accessible | Termine ; Lighthouse et tests multi-navigateurs restants |
 | 2026-08-26 | Lighthouse Production - premiere passe | Mesures Lighthouse mobile et desktop sur `https://reda.bouhaddar.com` | Mobile : performance 99, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 1,4 s, CLS 0 ; desktop : performance 95, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 1,2 s, CLS 0, TBT 110 ms | Premiere passe terminee ; trois repetitions, waterfall et multi-navigateurs restants |
+| 2026-08-26 | Lighthouse Production - medianes | Deux repetitions supplementaires par profil avec Lighthouse 13.4.1 et reseau mobile simule | Mobile mediane : performance 82, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 1,61 s, CLS 0, TBT 714 ms ; desktop mediane : performance 99, accessibilite 100, bonnes pratiques 100, SEO 100, LCP 0,88 s, CLS 0, TBT 10 ms | Mediane enregistree ; variabilite mobile liee au temps de blocage du bundle/video a analyser |
 
 ## References pour la decision video
 
