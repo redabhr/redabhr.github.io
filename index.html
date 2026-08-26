@@ -3,10 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Security-Policy"
-          content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-4WgsVNQElg8d7xVIyHZi7GBMY9QrC7nD05seD70cts0='; script-src-elem 'self' https://static.cloudflareinsights.com; script-src-attr 'none'; style-src 'self'; img-src 'self' data: https://*.litix.io; font-src 'self'; connect-src 'self' https://reda-background-video-token.reda-background-video-token.workers.dev https://*.mux.com https://*.litix.io https://cloudflareinsights.com; media-src 'self' blob: https://*.mux.com; worker-src 'self' blob:; child-src 'self' blob:">
+          content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-j0cAE9gdtyGYYCQKTCOQAvIiLEjT6gHQOozo4pZ9yZM='; script-src-elem 'self' https://static.cloudflareinsights.com; script-src-attr 'none'; style-src 'self'; img-src 'self' data: https://*.litix.io; font-src 'self'; connect-src 'self' https://reda-background-video-token.reda-background-video-token.workers.dev https://*.mux.com https://*.litix.io https://cloudflareinsights.com; media-src 'self' blob: https://*.mux.com; worker-src 'self' blob:; child-src 'self' blob:">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Réda BOUHADDAR">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="description"
           content="Creating coherence across strategy, capabilities, information systems and technology to guide transformation, strengthen governance and enable sustainable evolution.">
     <link rel="canonical" href="https://reda.bouhaddar.com/">
@@ -46,7 +47,9 @@
         {
             "@context": "https://schema.org",
             "@type": "ProfilePage",
+            "@id": "https://reda.bouhaddar.com/#profile",
             "url": "https://reda.bouhaddar.com/",
+            "inLanguage": "en-US",
             "keywords": [
                 "Enterprise Architect",
                 "Enterprise Architecture",
@@ -86,8 +89,18 @@
             ],
             "mainEntity": {
                 "@type": "Person",
+                "@id": "https://reda.bouhaddar.com/#person",
                 "name": "Réda BOUHADDAR",
                 "url": "https://reda.bouhaddar.com/",
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://reda.bouhaddar.com/media/og-enterprise-architect.jpg",
+                    "width": 1200,
+                    "height": 630
+                },
+                "mainEntityOfPage": {
+                    "@id": "https://reda.bouhaddar.com/#profile"
+                },
                 "jobTitle": "Enterprise Architect",
                 "description": "Creating coherence across strategy, capabilities, information systems and technology to guide transformation, strengthen governance and enable sustainable evolution.",
                 "sameAs": [
