@@ -4,11 +4,35 @@ Site : `https://reda.bouhaddar.com`
 
 Ce document suit les optimisations techniques, UX, accessibilite et SEO de la page. Une tache ne doit etre cochee qu'apres implementation et verification.
 
+## Prochaines actions
+
+### P0 - A faire avant la cloture
+
+- [ ] Ajouter un bouton pause/lecture discret pour l'animation de fond.
+- [ ] Ajouter son nom accessible, son etat ARIA, son tooltip et la memorisation locale du choix.
+- [ ] Tester Chrome, Edge, Firefox, Safari macOS/iOS et Chrome Android.
+- [ ] Verifier la console, les erreurs reseau, le mode reduit, le reseau lent et le fallback sans JavaScript.
+
+### P1 - Mesure et exploitation
+
+- [ ] Decider explicitement entre Mux Data, une analytics sans cookies ou l'absence de mesure.
+- [ ] Si Mux Data est active, integrer uniquement le SDK HLS.js avec une cle `ENV_KEY` publique et mesurer le QoE utile.
+- [ ] Definir les seuils d'alerte Mux/Cloudflare et documenter la rotation des secrets.
+- [ ] Verifier les cartes Open Graph/LinkedIn et les donnees structurees apres publication.
+
+### P2 - Apres stabilisation
+
+- [ ] Ajouter l'URL publique du calendrier et activer son bouton.
+- [ ] Evaluer le trafic reel et les minutes Mux apres quelques jours.
+- [ ] Documenter le plan de sortie vers un autre fournisseur HLS.
+
+Dernier commit local non pousse au moment de cette revision : `d03f618 test(html): added static publication checks`.
+
 ## Etat initial
 
 - [x] L'image `bg.jpg` reste visible pendant le chargement de la video.
 - [x] La video apparait avec un fondu uniquement lorsqu'elle commence a jouer.
-- [x] Le fallback image reste disponible si YouTube ne repond pas.
+- [x] Le fallback image reste disponible si le Worker, Mux ou la lecture HLS ne repond pas.
 - [x] `prefers-reduced-motion` desactive deja la video.
 - [x] Le domaine canonique utilise `reda.bouhaddar.com`.
 - [x] Le profil LinkedIn utilise `https://www.linkedin.com/in/rbouhaddar`.
@@ -20,9 +44,9 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Poids local releve : environ 356 Ko hors services tiers.
 - [x] `bg.jpg` releve : environ 267 Ko, 2560 x 1440.
 - [x] Polices WOFF relevees : environ 71 Ko.
-- [ ] Mesurer la page deployee avec Lighthouse en mobile et desktop.
-- [ ] Mesurer le poids total et le nombre de requetes avec la video YouTube active.
-- [ ] Enregistrer les valeurs initiales de LCP, CLS et INP.
+- [x] Mesurer la page deployee avec Lighthouse en mobile et desktop.
+- [x] Mesurer le poids total et le nombre de requetes de la version Mux Production ; l'ancienne mesure YouTube est historique et non applicable.
+- [x] Enregistrer les valeurs de reference LCP, CLS et TBT ; l'INP reel reste a mesurer avec des donnees terrain.
 
 ## P0 - Corrections prioritaires
 
@@ -38,10 +62,10 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 
 ### Accessibilite de la video
 
-- [ ] Ajouter un bouton discret lecture/pause avec une icone explicite. Decision reportee.
-- [ ] Ajouter un libelle accessible et un tooltip au bouton. Decision reportee.
+- [ ] Ajouter un bouton discret lecture/pause avec une icone explicite.
+- [ ] Ajouter un libelle accessible, un etat ARIA et un tooltip au bouton.
 - [x] Conserver le respect de `prefers-reduced-motion`.
-- [ ] Memoriser localement le choix pause/lecture de l'utilisateur. Decision reportee.
+- [ ] Memoriser localement le choix pause/lecture de l'utilisateur.
 - [x] Verifier la navigation clavier et ajouter un focus visible aux liens de contact.
 
 ### Securite et liens obsoletes
@@ -90,7 +114,7 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Le LCP mesure est inferieur a 2,5 s dans le scenario mobile cible.
 - [x] Le CLS reste inferieur a 0,1.
 
-## P1 - Remplacement de YouTube
+## P1 - Video Mux Production
 
 ### Decision d'architecture au 2026-08-23
 
@@ -221,7 +245,9 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 - [x] Supprimer le recalcul JavaScript au `resize` au profit de `object-fit: cover` natif ; ne reagir qu'au changement de variante portrait/paysage.
 - [ ] Verifier qu'aucune erreur n'apparait dans la console.
 
-### Solution transitoire si YouTube est conserve
+### Historique - solution YouTube transitoire
+
+Cette section est conservee uniquement pour tracer la solution precedente. Elle ne represente plus le code publie.
 
 - [x] Differer l'injection de l'API YouTube apres `window.load`, puis pendant une periode idle.
 - [x] Utiliser le domaine `youtube-nocookie.com` pour le player integre.
@@ -248,9 +274,9 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 
 ## P2 - SEO et partage social
 
-- [ ] Conserver une seule balise `h1` claire et descriptive.
-- [ ] Verifier la hierarchie semantique du contenu.
-- [ ] Verifier le `title`, la meta description et l'URL canonique.
+- [x] Conserver une seule balise `h1` claire et descriptive.
+- [x] Verifier la hierarchie semantique du contenu.
+- [x] Verifier le `title`, la meta description et l'URL canonique.
 - [x] Creer une image Open Graph dediee en 1200 x 630 via `npm run build:images`.
 - [x] Ajouter les dimensions, le type et le texte alternatif de l'image sociale.
 - [ ] Verifier les cartes LinkedIn, Open Graph et Twitter/X apres publication.
@@ -279,8 +305,8 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 
 ## Budget de performance cible
 
-- [ ] LCP inferieur a 2,5 s.
-- [ ] CLS inferieur a 0,1.
+- [x] LCP inferieur a 2,5 s dans les scenarios Lighthouse mesures.
+- [x] CLS inferieur a 0,1 dans les scenarios Lighthouse mesures.
 - [ ] INP inferieur a 200 ms.
 - [ ] Image initiale adaptee au viewport et idealement inferieure a 300 Ko.
 - [ ] Video optionnelle idealement inferieure a 2 Mo par boucle initiale.
@@ -314,11 +340,11 @@ Ce document suit les optimisations techniques, UX, accessibilite et SEO de la pa
 | 2026-08-25 | P1 Video signee - environnement local | Secrets Mux Development isoles dans `.dev.vars`, endpoint Worker local auto-detecte et Playback Restriction active pour localhost | 6 tests Worker reussis ; manifeste HLS restreint HTTP 200 depuis localhost ; sans referrer ou depuis un domaine tiers refuse en HTTP 403 | Termine ; rotation des credentials Development effectuee le 2026-08-26 |
 | 2026-08-25 | P1 Video signee - qualite et boucle | Suppression du test de debit en rendition minimale, estimation ABR adaptee au viewport, manifeste paysage jusqu'a 2160p, `hls.js` prioritaire, derniere frame conservee pendant un stall et reprise explicite a la fin | Chrome : 720p a 569 px, 1080p a 1440 px, 1440p a 2560 px, 2160p a 3840 px ; deux boucles sans retour au poster ; source premiere/derniere frame coherente | Termine en Development ; validation multi-navigateurs restante |
 | 2026-08-25 | Observabilite video | Decision de reporter Mux Data SDK : la consommation Mux et les logs Worker suffisent au lancement ; instrumentation QoE reservee au diagnostic d'incidents reels | Revue de l'integration `hls.js`, de sa valeur pour une video decorative et de son impact sur la confidentialite | Termine |
-| 2026-08-25 | P1 Video signee - Production | Asset Basic 2160p signe, restriction Mux stricte, nouvelle cle de signature, secrets Cloudflare chiffres, Worker deploye et endpoint/CSP configures | 6 tests Worker ; bundle 12,21 Kio ; HLS HTTP 200 avec 6 renditions ; tiers et absence de provenance HTTP 403 ; expiration a 63 s HTTP 403 ; cache segment 7 jours ; controle CSP reproductible | Partiel : deploiement GitHub Pages et validation multi-navigateurs restants |
+| 2026-08-25 | P1 Video signee - Production | Asset Basic 2160p signe, restriction Mux stricte, nouvelle cle de signature, secrets Cloudflare chiffres, Worker deploye et endpoint/CSP configures | 6 tests Worker ; bundle 12,21 Kio ; HLS HTTP 200 avec 6 renditions ; tiers et absence de provenance HTTP 403 ; expiration a 63 s HTTP 403 ; cache segment 7 jours ; controle CSP reproductible | Termine ; validation multi-navigateurs restante |
 | 2026-08-25 | P1 Video signee - portrait Production | Comparaison Basic/Plus tranchee en faveur de Basic ; pipeline FFmpeg reproductible ; asset portrait 3:4 Basic signe et Worker redeploye | 7 tests Worker ; master 1080 x 1440 valide ; HLS 270 x 360, 480 x 640 et 720 x 960 ; Chrome 569 x 847 ; acces sans jeton, tiers et sans provenance refuses en HTTP 403 | Termine ; rotation des identifiants Development traitee separement |
 | 2026-08-26 | Securite Mux Development | Nouveau token API Development verifie par `whoami`, nouvelle cle de signature creee et ancienne cle exposee revoquee | Permissions `video:read/write` et `system:read/write` ; JWT accepte par Mux Development ; manifeste paysage HTTP 200 apres rotation | Termine |
-| 2026-08-26 | P1 SEO et responsive local | Image Open Graph dediee 1200 x 630, metadonnees sociales completees, tableau remplace par Flexbox, `100svh` ajoute, CSS duplique consolide et `font-display: swap` active | Image sociale 92 Ko valide ; CSP valide ; rendu Chrome viewport CSS 320 x 812 et 375 x 812 sans debordement ; rendu desktop conserve | Partiel : validation des cartes sociales et mesures Lighthouse apres publication |
-| 2026-08-26 | P1 Polices WOFF2 | Conversion des fontes RB en WOFF2, priorite WOFF2 dans `@font-face` et prechargement des deux graisses critiques | `rb-Light.woff2` 20,4 Ko et `rb-Regular.woff2` 20,7 Ko servis par Chrome en HTTP 200 ; aucun fallback WOFF observe | Partiel : subset et retrait des anciens formats restants |
+| 2026-08-26 | P1 SEO et responsive local | Image Open Graph dediee 1200 x 630, metadonnees sociales completees, tableau remplace par Flexbox, `100svh` ajoute, CSS duplique consolide et `font-display: swap` active | Image sociale 92 Ko valide ; CSP valide ; rendu Chrome viewport CSS 320 x 812 et 375 x 812 sans debordement ; Lighthouse SEO 100 | Termine ; cartes sociales externes restantes |
+| 2026-08-26 | P1 Polices WOFF2 | Conversion des fontes RB en WOFF2, priorite WOFF2 dans `@font-face` et prechargement des deux graisses critiques | Subsets `rb-Light.woff2` 9,8 Ko et `rb-Regular.woff2` 10,1 Ko servis par Chrome en HTTP 200 ; anciens formats retires | Termine |
 | 2026-08-26 | P1 Polices WOFF2 - subset | Subset des deux fontes a 183 glyphes, poids reduit a 9,8 Ko et 10,1 Ko, retrait des formats EOT/TTF/SVG | Chrome 375 x 812 conserve le rendu et charge les WOFF2 en HTTP 200 ; CSP valide | Termine ; source TTF conservee dans l'historique Git |
 | 2026-08-26 | Hygiene du depot | Dossiers d'assets renommes `s/` vers `css/` et `j/` vers `js/`, pages vides supprimees, references et controle CSP mis a jour | Build HLS reproductible, recherche des anciens chemins et `git diff --check` | Termine |
 | 2026-08-26 | Hygiene du depot - hebergement | Suppression de `.htaccess`, sans effet sur GitHub Pages et source de confusion pour la configuration HTTPS/cache | Audit de `CNAME`, GitHub Pages et contenu du fichier | Termine |
