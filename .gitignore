@@ -17,3 +17,6 @@ _site/
 /.idea/
 /alignement.png
 /texteaerea.PNG
+
+# Local audit and optimization tracking.
+/OPTIMIZATION-CHECKLIST.md
