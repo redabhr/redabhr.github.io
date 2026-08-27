@@ -38,6 +38,7 @@
     let hlsPromise;
     let muxPromise;
     let idleHandle;
+    let videoDelayHandle;
     let playerTimeout;
     let stallFallbackTimeout;
     let scheduled = false;
@@ -285,7 +286,6 @@
     function createVideoLayer() {
         const container = document.createElement('div');
         const video = document.createElement('video');
-        const poster = document.querySelector('#page-background img');
 
         container.id = 'redabhrBgVideo-container';
         container.setAttribute('aria-hidden', 'true');
@@ -304,10 +304,6 @@
         video.tabIndex = -1;
         video.setAttribute('aria-hidden', 'true');
         video.setAttribute('controlslist', 'nodownload noremoteplayback nofullscreen');
-
-        if (poster?.currentSrc || poster?.src) {
-            video.poster = poster.currentSrc || poster.src;
-        }
 
         video.addEventListener('ended', restartVideoLoop);
         video.addEventListener('playing', handlePlaying);
@@ -577,11 +573,18 @@
         }
 
         scheduled = true;
-        if ('requestIdleCallback' in window) {
-            idleHandle = window.requestIdleCallback(startVideo, { timeout: 2500 });
-        } else {
-            idleHandle = window.setTimeout(startVideo, 1000);
-        }
+        videoDelayHandle = window.setTimeout(() => {
+            if (!canLoadVideo()) {
+                scheduled = false;
+                return;
+            }
+
+            if ('requestIdleCallback' in window) {
+                idleHandle = window.requestIdleCallback(startVideo, { timeout: 1000 });
+            } else {
+                startVideo();
+            }
+        }, 4500);
     }
 
     function cancelScheduledVideo() {
@@ -589,11 +592,14 @@
             return;
         }
 
-        if ('cancelIdleCallback' in window) {
+        window.clearTimeout(videoDelayHandle);
+        if (idleHandle && 'cancelIdleCallback' in window) {
             window.cancelIdleCallback(idleHandle);
-        } else {
+        } else if (idleHandle) {
             window.clearTimeout(idleHandle);
         }
+        videoDelayHandle = undefined;
+        idleHandle = undefined;
         scheduled = false;
     }
 
