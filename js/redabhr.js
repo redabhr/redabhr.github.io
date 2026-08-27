@@ -9,7 +9,7 @@
         + '| ARCHITECTING COHERENCE. ENABLING THE FUTURE.     |\n'
         + '| https://reda.bouhaddar.com                       |\n'
         + '+--------------------------------------------------+',
-        'font-weight:600;color:##014e61'
+        'font-weight:600;color:#014e61'
     );
 
     const currentScript = document.currentScript;
