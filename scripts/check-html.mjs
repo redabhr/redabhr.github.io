@@ -29,6 +29,7 @@ for (const asset of [
   'js/vendor/hls.light.min-1.7.0.js',
   'media/favicon.svg',
   'media/apple-touch-icon.png',
+  '.well-known/security.txt',
 ]) {
   await access(join(rootDirectory, asset));
 }

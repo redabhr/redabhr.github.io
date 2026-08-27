@@ -13,7 +13,7 @@ for (const file of ['index.html', 'CNAME', 'favicon.ico', 'robots.txt', 'sitemap
   await cp(join(rootDirectory, file), join(siteDirectory, file));
 }
 
-for (const directory of ['fonts', 'media']) {
+for (const directory of ['fonts', 'media', '.well-known']) {
   await cp(join(rootDirectory, directory), join(siteDirectory, directory), { recursive: true });
 }
 
