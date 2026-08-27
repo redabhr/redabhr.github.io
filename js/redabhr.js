@@ -27,6 +27,10 @@
     const TOKEN_TIMEOUT_MS = 6000;
     const TOKEN_EXPIRY_MARGIN_SECONDS = 10;
     const STALL_FALLBACK_DELAY_MS = 2500;
+    const DESKTOP_VIDEO_DELAY_MS = 2200;
+    const CONSTRAINED_VIDEO_DELAY_MS = 3500;
+    const MOBILE_VIDEO_DELAY_MS = 4500;
+    const VIDEO_PLAYBACK_RATE = 0.85;
     const LOOP_START_SECONDS = 0.02;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const portraitVideo = window.matchMedia('(max-width: 720px) and (max-aspect-ratio: 3/4)');
@@ -300,6 +304,9 @@
         video.loop = false;
         video.muted = true;
         video.playsInline = true;
+        // A restrained pace keeps the ambient motion subordinate to the profile content.
+        video.defaultPlaybackRate = VIDEO_PLAYBACK_RATE;
+        video.playbackRate = VIDEO_PLAYBACK_RATE;
         video.preload = 'auto';
         video.tabIndex = -1;
         video.setAttribute('aria-hidden', 'true');
@@ -573,6 +580,7 @@
         }
 
         scheduled = true;
+        const delay = getVideoStartDelay();
         videoDelayHandle = window.setTimeout(() => {
             if (!canLoadVideo()) {
                 scheduled = false;
@@ -584,7 +592,20 @@
             } else {
                 startVideo();
             }
-        }, 4500);
+        }, delay);
+    }
+
+    function getVideoStartDelay() {
+        // Keep mobile and constrained connections conservative while making desktop feel immediate.
+        if (portraitVideo.matches || window.innerWidth <= 720) {
+            return MOBILE_VIDEO_DELAY_MS;
+        }
+
+        if (connection?.effectiveType && connection.effectiveType !== '4g') {
+            return CONSTRAINED_VIDEO_DELAY_MS;
+        }
+
+        return DESKTOP_VIDEO_DELAY_MS;
     }
 
     function cancelScheduledVideo() {
