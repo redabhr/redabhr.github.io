@@ -78,8 +78,8 @@ const socialCardOverlay = Buffer.from(`
 await sharp(sourcePath)
   .resize({ width: 1200, height: 630, fit: 'cover', position: 'centre' })
   .composite([{ input: socialCardOverlay }])
-  .jpeg({ quality: 88, progressive: true, mozjpeg: true })
-  .toFile(join(outputDirectory, 'og-enterprise-architect.jpg'));
+  .jpeg({ quality: 95, chromaSubsampling: '4:4:4', progressive: false, mozjpeg: true })
+  .toFile(join(outputDirectory, 'og-enterprise-architect-v2.jpg'));
 
 const brandIconSvg = Buffer.from(`
   <svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
