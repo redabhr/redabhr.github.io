@@ -167,6 +167,10 @@ body::before {
     transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
 }
 
+#video-toggle[hidden] {
+    display: none;
+}
+
 #video-toggle:hover,
 #video-toggle:focus-visible {
     border-color: var(--accent-hover);

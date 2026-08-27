@@ -20,6 +20,8 @@ _site/
 /linkedin_card.JPG
 /pagespeed-texte.txt
 /screencapture-pagespeed-web-dev-analysis-*.pdf
+/test-results/
+/playwright-report/
 
 # Local audit and optimization tracking.
 /OPTIMIZATION-CHECKLIST.md
