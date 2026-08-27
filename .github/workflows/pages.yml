@@ -58,6 +58,7 @@ jobs:
           test ! -e _site/.env
           test ! -e _site/js/redabhr.js.map
           test ! -e _site/css/redabhr.css.map
+          npm run check:artifact
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

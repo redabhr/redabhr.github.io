@@ -5,6 +5,7 @@
     "build:images": "node scripts/build-images.mjs",
     "build:pages": "node scripts/build-pages.mjs",
     "check:html": "node scripts/check-html.mjs",
+    "check:artifact": "node scripts/check-artifact.mjs",
     "dev": "node scripts/dev-all.mjs",
     "dev:site": "node scripts/dev-server.mjs",
     "build:video-portrait": "node scripts/build-video-portrait.mjs",
