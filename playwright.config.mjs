@@ -2,7 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 15_000,
+  // WebKit can take longer to cold-start on shared GitHub-hosted runners.
+  timeout: 30_000,
   expect: { timeout: 5_000 },
   reporter: process.env.CI ? [['line'], ['html', { open: 'never' }]] : 'list',
   use: {
@@ -15,7 +16,7 @@ export default defineConfig({
     url: 'http://localhost:8010',
     env: { PORT: '8010' },
     reuseExistingServer: !process.env.CI,
-    timeout: 15_000,
+    timeout: 30_000,
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
