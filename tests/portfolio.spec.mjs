@@ -30,3 +30,11 @@ test('keeps controls keyboard accessible', async ({ page }) => {
   await expect(firstLink).toBeFocused();
   await expect(firstLink).toHaveAttribute('href', /linkedin|mailto/);
 });
+
+test('shows contact tooltip and pointer on hover', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const articles = page.locator('[data-tooltip="Articles"]');
+  await articles.hover();
+  await expect(articles).toHaveAttribute('aria-label', 'Articles');
+  await expect.poll(() => articles.evaluate((element) => getComputedStyle(element, '::before').opacity)).toBe('1');
+});

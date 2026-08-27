@@ -150,7 +150,9 @@ body::before {
 #video-toggle {
     position: fixed;
     right: 24px;
+    right: max(24px, env(safe-area-inset-right));
     bottom: 24px;
+    bottom: max(24px, env(safe-area-inset-bottom));
     z-index: 100;
     display: inline-flex;
     align-items: center;
@@ -294,8 +296,72 @@ body::before {
 
 #contact a:link,
 #contact a:visited {
+    position: relative;
     color: var(--accent);
     transition: color 160ms ease;
+}
+
+#contact .contact-placeholder {
+    position: relative;
+}
+
+#contact [data-tooltip]::after,
+#contact [data-tooltip]::before {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 160ms ease, transform 160ms ease;
+}
+
+#contact [data-tooltip]::after {
+    content: attr(data-tooltip);
+    left: 50%;
+    top: calc(100% + 8px);
+    z-index: 5;
+    padding: 8px 11px;
+    border: 1px solid rgba(212, 162, 105, 0.72);
+    border-radius: 6px;
+    background: rgba(7, 19, 33, 0.96);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+    color: var(--text-primary);
+    font-family: 'RB', Sans-Serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    transform: translate(-50%, 4px);
+}
+
+#contact [data-tooltip]::before {
+    content: '';
+    left: 50%;
+    top: calc(100% + 2px);
+    z-index: 6;
+    width: 0;
+    height: 0;
+    border-bottom: 7px solid rgba(212, 162, 105, 0.72);
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    background: transparent;
+    filter: none;
+    transform: translate(-50%, 4px);
+}
+
+#contact a[data-tooltip]:hover::after,
+#contact a[data-tooltip]:hover::before,
+#contact a[data-tooltip]:focus-visible::after,
+#contact a[data-tooltip]:focus-visible::before,
+#contact .contact-placeholder[data-tooltip]:hover::after,
+#contact .contact-placeholder[data-tooltip]:hover::before {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (hover: none) {
+    #contact [data-tooltip]::after,
+    #contact [data-tooltip]::before {
+        display: none;
+    }
 }
 
 #contact .contact-icon {
@@ -331,6 +397,15 @@ body::before {
 #contact a:hover,
 #contact a:active {
     color: var(--accent-hover);
+}
+
+#contact a:hover .contact-icon,
+#contact a:focus-visible .contact-icon {
+    transform: scale(1.08);
+}
+
+#contact .contact-icon {
+    transition: transform 160ms ease;
 }
 
 #contact a:focus-visible {
@@ -382,13 +457,29 @@ body::before {
 
     #video-toggle {
         right: 16px;
+        right: max(16px, env(safe-area-inset-right));
         bottom: 16px;
+        bottom: max(16px, env(safe-area-inset-bottom));
     }
 }
 
 @media (max-width: 420px) {
     .reda-bouhaddar {
         font-size: 32px;
+    }
+}
+
+@media (max-height: 560px) and (hover: hover) {
+    #contact [data-tooltip]::after {
+        top: auto;
+        bottom: calc(100% + 8px);
+    }
+
+    #contact [data-tooltip]::before {
+        top: auto;
+        bottom: calc(100% + 2px);
+        border-top: 7px solid rgba(212, 162, 105, 0.72);
+        border-bottom: 0;
     }
 }
 
