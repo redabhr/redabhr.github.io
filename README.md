@@ -1,4 +1,21 @@
-# Developpement local
+# Réda's static portfolio page
+
+## Commandes principales
+
+| Commande | Usage |
+| --- | --- |
+| `npm run dev` | Lance le site et le Worker local ensemble |
+| `npm run build:pages` | Assemble l'artefact Pages minifié dans `_site/` |
+| `npm run check:html` | Vérifie le HTML et les assets publiés |
+| `npm run check:artifact` | Vérifie les frontières et le contenu de `_site/` |
+| `npm run check:csp` | Vérifie la CSP et le hash JSON-LD |
+| `npm test --prefix workers/video-token` | Exécute les tests du Worker |
+
+## Publication
+
+Le workflow GitHub Actions construit et déploie automatiquement `_site/` sur
+GitHub Pages à chaque push sur `master`. `node_modules/`, les sources de build,
+le Worker et les secrets ne sont jamais copiés dans l'artefact public.
 
 Le site statique et le Worker peuvent etre lances ensemble avec une seule commande.
 
